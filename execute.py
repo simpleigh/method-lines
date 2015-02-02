@@ -1,6 +1,7 @@
 import sys
 
 from lines import Job
+from lines.tasks import LineTask, GridTask
 
 
 if len(sys.argv) < 2:
@@ -8,5 +9,8 @@ if len(sys.argv) < 2:
 
 job = Job(sys.argv[1])
 
-for method in job.methods:
-    print(job.methods[method])
+task = LineTask(job)
+task.execute()
+
+task = GridTask(job)
+task.execute()
