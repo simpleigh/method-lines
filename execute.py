@@ -2,7 +2,13 @@
 import sys
 
 from lines import Job
-from lines.tasks import LineTask, GridTask, PlaceTask, CompositionTask
+from lines.tasks import (
+    LineTask,
+    GridTask,
+    PlaceTask,
+    CompositionTask,
+    RowsTask,
+)
 
 
 if len(sys.argv) < 2:
@@ -20,4 +26,7 @@ task = PlaceTask(job)
 task.execute()
 
 task = CompositionTask(job)
+task.execute()
+
+task = RowsTask(job)
 task.execute()
