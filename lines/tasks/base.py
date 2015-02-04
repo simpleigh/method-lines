@@ -6,6 +6,12 @@ class TaskBase(object):
 
     def __init__(self, job):
         self.job = job
+
+        # Guess an output directory name by removing 'Task' from the classname
+        self.dir_name = type(self).__name__.lower()
+        if self.dir_name[-4:] == 'task':
+            self.dir_name = self.dir_name[:-4]
+
         self.check_environment()
 
     def check_environment(self):

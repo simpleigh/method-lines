@@ -23,8 +23,6 @@ class PslineTaskBase(TaskBase):
 
 
 class LineTask(PslineTaskBase):
-    dir_name = 'lines'
-
     def execute(self):
         for method in self.job.methods.itervalues():
             lh_change = method[method.length - 1]
@@ -54,8 +52,6 @@ class LineTask(PslineTaskBase):
 
 
 class GridTask(PslineTaskBase):
-    dir_name = 'grids'
-
     def execute(self):
         for method in self.job.methods.itervalues():
             command = (
