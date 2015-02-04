@@ -46,40 +46,61 @@ CELL_STYLES[STYLE_METHOD_NAME].font.bold = True
 
 
 class RowsTask(TaskBase):
+    workbook = None
+    worksheet = None
+    row_index = 0
+    lead_head = None
+
     def execute(self):
-        workbook = xlwt.Workbook()
-        worksheet = workbook.add_sheet('Rows')
+        self.workbook = xlwt.Workbook()
+        self.worksheet = self.workbook.add_sheet('Rows',
+                                                 cell_overwrite_ok=True)
 
         # Set up column widths
         for column_index in range(self.job.bells + 1):
-            worksheet.col(column_index).width = 450  # 12px
+            self.worksheet.col(column_index).width = 450  # 12px
 
-        # Print rounds
-        row_index = 0
-        for column_index, bell in enumerate(str(Row(self.job.bells))):
-            worksheet.write(row_index, column_index, bell,
-                            CELL_STYLES[STYLE_NORMAL_LH])
-        row_index += 1
+        self.row_index = 0
+        self.lead_head = Row(self.job.bells)
 
         input_file = os.path.join(self.job.name, 'composition.txt')
         with open(input_file) as input_file:
-            lead_head = Row(self.job.bells)
             for input_line in input_file:
                 method = self.job.methods[input_line.strip()]
-                rb = RowBlock(*list(method), starting_row=lead_head)
-                for index in range(1, rb.size):  # Miss off the lead head
-                    style = STYLE_NORMAL
-                    if index == 1:
-                        worksheet.write(row_index - 1, self.job.bells + 1,
-                                        method.name,
-                                        CELL_STYLES[STYLE_METHOD_NAME])
-                    if index == rb.size - 1:
-                        style += 4
+                self.print_method(method)
 
-                    for column_index, bell in enumerate(str(rb[index])):
-                        worksheet.write(row_index, column_index, bell,
-                                        CELL_STYLES[style])
-                    row_index += 1
-                lead_head = rb[rb.size - 1]
+        self.workbook.save(os.path.join(self.job.name, self.dir_name, 'rows.xls'))
 
-        workbook.save(os.path.join(self.job.name, self.dir_name, 'rows.xls'))
+    def print_method(self, method):
+        rb = RowBlock(*list(method), starting_row=self.lead_head)
+        for index, row in enumerate(rb):
+            if index == 0:  # Method name
+                self.worksheet.write(
+                    self.row_index,
+                    self.job.bells + 1,
+                    method.name,
+                    CELL_STYLES[STYLE_METHOD_NAME],
+                )
+
+            if index == 0 or index == rb.size - 1:  # Lead head
+                self.print_row(row, True)
+            else:
+                self.print_row(row)
+
+        self.row_index -= 1  # Go back one row to overwrite last lead head
+        self.lead_head = rb[rb.size - 1]
+
+    def print_row(self, row, lead_head=False):
+        style = STYLE_NORMAL
+        if lead_head:
+            style += 4
+
+        for index, bell in enumerate(str(row)):
+            self.worksheet.write(
+                self.row_index,
+                index,
+                bell,
+                CELL_STYLES[style],
+            )
+
+        self.row_index += 1
