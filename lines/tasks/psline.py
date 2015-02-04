@@ -11,6 +11,7 @@ def bell_number_to_char(num):
 
 class PslineTaskBase(TaskBase):
     def check_environment(self):
+        # Check for psline
         with open(os.devnull, 'w') as devnull:
             subprocess.check_call(
                 'psline --version',
@@ -18,8 +19,15 @@ class PslineTaskBase(TaskBase):
                 shell=True
             )
 
+        # Create output directory
+        output_dir = os.path.join(self.job.name, self.dir_name)
+        if not os.path.exists(output_dir):
+            os.mkdir(output_dir)
+
 
 class LineTask(PslineTaskBase):
+    dir_name = 'lines'
+
     def execute(self):
         for method in self.job.methods.itervalues():
             lh_change = method[method.length - 1]
@@ -40,7 +48,8 @@ class LineTask(PslineTaskBase):
             ).format(
                 bells=self.job.bells,
                 pn=method.format(),
-                file=os.path.join(self.job.name, method.full_name()),
+                file=os.path.join(self.job.name, self.dir_name,
+                                  method.full_name()),
                 name=method.full_name(),
                 line=line,
             )
@@ -48,6 +57,8 @@ class LineTask(PslineTaskBase):
 
 
 class GridTask(PslineTaskBase):
+    dir_name = 'grids'
+
     def execute(self):
         for method in self.job.methods.itervalues():
             command = (
@@ -60,7 +71,8 @@ class GridTask(PslineTaskBase):
             ).format(
                 bells=self.job.bells,
                 pn=method.format(),
-                file=os.path.join(self.job.name, method.full_name()),
+                file=os.path.join(self.job.name, self.dir_name,
+                                  method.full_name()),
                 name=method.full_name(),
             )
 
