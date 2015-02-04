@@ -1,32 +1,25 @@
 import os
 import subprocess
 
+from lines.tasks.base import TaskBase
 from ringing import Row, Change
-
-
-class TaskBase(object):
-    job = None
-
-    def __init__(self, job):
-        self.job = job
-        self.check_environment()
-
-    def check_environment(self):
-        pass
-
-    def execute(self):
-        raise NotImplementedError
 
 
 def bell_number_to_char(num):
     return str(Row(num))[num - 1]
 
 
-class LineTask(TaskBase):
+class PslineTaskBase(TaskBase):
     def check_environment(self):
         with open(os.devnull, 'w') as devnull:
-            subprocess.check_call('psline --help', stdout=devnull, shell=True)
+            subprocess.check_call(
+                'psline --version',
+                stdout=devnull,
+                shell=True
+            )
 
+
+class LineTask(PslineTaskBase):
     def execute(self):
         for method in self.job.methods.itervalues():
             lh_change = method[method.length - 1]
@@ -54,7 +47,7 @@ class LineTask(TaskBase):
             subprocess.check_call(command, shell=True)
 
 
-class GridTask(LineTask):
+class GridTask(PslineTaskBase):
     def execute(self):
         for method in self.job.methods.itervalues():
             command = (
