@@ -81,3 +81,27 @@ class GridTask(PslineTaskBase):
                 command = command + line
 
             subprocess.check_call(command, shell=True)
+
+
+class PlaceTask(PslineTaskBase):
+    def execute(self):
+        for method in self.job.methods.itervalues():
+            for place_bell in range(self.job.bells):
+                command = (
+                    'psline "{bells}:{pn}"'
+                    ' --pdf'
+                    ' --output-file="{file} - {bell}.pdf"'
+                    ' --title="{name}"'
+                    ' --total-leads=1'
+                    ' --place-bells={bell}'
+                    ' --line=1,0,1pt'
+                    ' --line={bell},0,2pt'
+                ).format(
+                    bells=self.job.bells,
+                    pn=method.format(),
+                    file=os.path.join(self.job.name, self.dir_name,
+                                      method.full_name()),
+                    bell=bell_number_to_char(place_bell + 1),
+                    name=method.full_name(),
+                )
+                subprocess.check_call(command, shell=True)

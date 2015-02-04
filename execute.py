@@ -1,7 +1,7 @@
 import sys
 
 from lines import Job
-from lines.tasks import LineTask, GridTask
+from lines.tasks import LineTask, GridTask, PlaceTask
 
 
 if len(sys.argv) < 2:
@@ -13,4 +13,7 @@ task = LineTask(job)
 task.execute()
 
 task = GridTask(job)
+task.execute()
+
+task = PlaceTask(job)
 task.execute()

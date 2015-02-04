@@ -1,1 +1,1 @@
-from lines.tasks.psline import LineTask, GridTask
+from lines.tasks.psline import LineTask, GridTask, PlaceTask
