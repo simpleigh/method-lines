@@ -4,41 +4,38 @@ import os
 from ringing import MAX_BELLS, Method
 
 
-class JobNotFoundError(RuntimeError):
-    pass
-
-
 class Job(object):
 
-    name = None
-    bells = None
-
     def __init__(self, name):
-        self.load_job_path(name)
-        self.load_bells()
+        self.name = self.load_name(name)
+        self.bells = self.load_bells(name)
+        self.methods = self.load_methods(name)
 
-        self.methods = {}
-        self.load_methods()
-
-    def load_job_path(self, name):
+    def load_name(self, name):
         if not os.path.exists(name):
-            raise JobNotFoundError
-        else:
-            self.name = name
+            raise RuntimeError("Cannot find job: '{job}'".format(job=name))
 
-    def load_bells(self):
-        with open(os.path.join(self.name, 'bells.txt')) as bells_file:
-            self.bells = int(bells_file.read().strip())
-        if not (0 <= self.bells <= MAX_BELLS):
+        return name
+
+    def load_bells(self, name):
+        with open(os.path.join(name, 'bells.txt')) as bells_file:
+            bells = int(bells_file.read().strip())
+
+        if not (0 <= bells <= MAX_BELLS):
             raise RuntimeError('Number of bells out of range')
 
-    def load_methods(self):
-        with open(os.path.join(self.name, 'methods.txt'), 'rb') as methods_file:
-            reader = csv.reader(methods_file, delimiter='\t')
+        return bells
+
+    def load_methods(self, name):
+        methods = {}
+        with open(os.path.join(self.name, 'methods.txt'), 'rb') as method_file:
+            reader = csv.reader(method_file, delimiter='\t')
             for row in reader:
                 name, pn = row
                 try:
-                    self.methods[name] = Method(pn, self.bells, name)
+                    methods[name] = Method(pn, self.bells, name)
                 except ValueError as e:
                     print('Could not parse method %s' % name)
                     raise
+
+        return methods
