@@ -1,7 +1,9 @@
 import csv
 import os
 
-from ringing import MAX_BELLS, Method
+from ringing import MAX_BELLS
+
+from lines.method import Method
 
 
 class Job(object):

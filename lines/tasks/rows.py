@@ -72,8 +72,9 @@ class RowsTask(TaskBase):
         self.workbook.save(os.path.join(self.job.name, self.dir_name, 'rows.xls'))
 
     def print_method(self, method):
-        rb = RowBlock(*list(method), starting_row=self.lead_head)
-        for index, row in enumerate(rb):
+        method.rows.set_start(self.lead_head)
+        method.rows.recalculate()
+        for index, row in enumerate(method.rows):
             if index == 0:  # Method name
                 self.worksheet.write(
                     self.row_index,
@@ -82,13 +83,13 @@ class RowsTask(TaskBase):
                     CELL_STYLES[STYLE_METHOD_NAME],
                 )
 
-            if index == 0 or index == rb.size - 1:  # Lead head
+            if index == 0 or index == method.size:  # Lead head
                 self.print_row(row, True)
             else:
                 self.print_row(row)
 
         self.row_index -= 1  # Go back one row to overwrite last lead head
-        self.lead_head = rb[rb.size - 1]
+        self.lead_head = method.rows[method.size]
 
     def print_row(self, row, lead_head=False):
         style = STYLE_NORMAL
