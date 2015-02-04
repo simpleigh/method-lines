@@ -106,8 +106,10 @@ class RowsTask(TaskBase):
         for i in range(1, self.job.bells):
             current_bell = row[i]
             bell_difference = abs(current_bell - previous_bell)
-            if previous_bell != 0 and current_bell != 0 and \
-                (bell_difference == 1 or bell_difference == self.job.bells - 2):
+            if (bell_difference == 1 or bell_difference == self.job.bells - 2)\
+                    and previous_bell != 0 \
+                    and current_bell != 0 \
+                    and self.row_index != 0:
                 bells_in_run += 1
                 if i == self.job.bells - 1 and bells_in_run >= 4:
                     paint_run(start_of_run, i)
