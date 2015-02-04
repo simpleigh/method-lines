@@ -11,6 +11,8 @@ def bell_number_to_char(num):
 
 class PslineTaskBase(TaskBase):
     def check_environment(self):
+        super(PslineTaskBase, self).check_environment()
+
         # Check for psline
         with open(os.devnull, 'w') as devnull:
             subprocess.check_call(
@@ -18,11 +20,6 @@ class PslineTaskBase(TaskBase):
                 stdout=devnull,
                 shell=True
             )
-
-        # Create output directory
-        output_dir = os.path.join(self.job.name, self.dir_name)
-        if not os.path.exists(output_dir):
-            os.mkdir(output_dir)
 
 
 class LineTask(PslineTaskBase):

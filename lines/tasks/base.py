@@ -1,3 +1,6 @@
+import os
+
+
 class TaskBase(object):
     job = None
 
@@ -6,7 +9,10 @@ class TaskBase(object):
         self.check_environment()
 
     def check_environment(self):
-        pass
+        # Create output directory
+        output_dir = os.path.join(self.job.name, self.dir_name)
+        if not os.path.exists(output_dir):
+            os.mkdir(output_dir)
 
     def execute(self):
         raise NotImplementedError
