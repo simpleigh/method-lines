@@ -92,16 +92,42 @@ class RowsTask(TaskBase):
         self.lead_head = method.rows[method.size]
 
     def print_row(self, row, lead_head=False):
-        style = STYLE_NORMAL
+        styles = [STYLE_NORMAL for _ in range(self.job.bells)]
+
+        previous_bell = row[0]
+        bells_in_run = 1
+        start_of_run = 0
+
+        def paint_run(from_bell, to_bell):
+            styles[from_bell] = STYLE_RUN_START
+            styles[from_bell + 1:to_bell] = [STYLE_RUN] * (to_bell - from_bell)
+            styles[to_bell] = STYLE_RUN_END
+
+        for i in range(1, self.job.bells):
+            current_bell = row[i]
+            bell_difference = abs(current_bell - previous_bell)
+            if previous_bell != 0 and current_bell != 0 and \
+                (bell_difference == 1 or bell_difference == self.job.bells - 2):
+                bells_in_run += 1
+                if i == self.job.bells - 1 and bells_in_run >= 4:
+                    paint_run(start_of_run, i)
+            else:
+                if bells_in_run >= 4:
+                    paint_run(start_of_run, i - 1)
+                bells_in_run = 1
+                start_of_run = i
+
+            previous_bell = current_bell
+
         if lead_head:
-            style += 4
+            styles = map(lambda style: style + 4, styles)
 
         for index, bell in enumerate(str(row)):
             self.worksheet.write(
                 self.row_index,
                 index,
                 bell,
-                CELL_STYLES[style],
+                CELL_STYLES[styles[index]],
             )
 
         self.row_index += 1
