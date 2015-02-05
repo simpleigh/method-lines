@@ -56,6 +56,13 @@ class RowsTask(TaskBase):
         self.worksheet = self.workbook.add_sheet('Rows',
                                                  cell_overwrite_ok=True)
 
+        self.worksheet.top_margin = 0.4
+        self.worksheet.right_margin = 0.4
+        self.worksheet.bottom_margin = 0.4
+        self.worksheet.left_margin = 0.4
+        self.worksheet.header_margin = 0
+        self.worksheet.footer_margin = 0
+
         # Set up column widths
         for column_index in range(self.job.bells + 1):
             self.worksheet.col(column_index).width = 450  # 12px
