@@ -1,107 +1,65 @@
 import os
-import subprocess
 
+from lines.psline import PsLineDriver
 from lines.tasks.base import TaskBase
-from ringing import Row, Change
+from ringing import Change
 
 
-def bell_number_to_char(num):
-    return str(Row(num))[num - 1]
+class LineTask(TaskBase):
 
-
-class PslineTaskBase(TaskBase):
-    def check_environment(self):
-        super(PslineTaskBase, self).check_environment()
-
-        # Check for psline
-        with open(os.devnull, 'w') as devnull:
-            subprocess.check_call(
-                'psline --version',
-                stdout=devnull,
-                shell=True
-            )
-
-
-class LineTask(PslineTaskBase):
     def execute(self):
+
+        driver = PsLineDriver()
+        driver.file_path = os.path.join(self.job.name, self.dir_name)
+
         for method in self.job.methods.itervalues():
+            lines = [{'bell': 0, 'weight': 1}]
+
             lh_change = method[method.length - 1]
             if lh_change == Change(self.job.bells, '2'):
-                line = 2
+                lines.append({'bell': 1})
             elif lh_change == Change(self.job.bells, '1'):
-                line = bell_number_to_char(self.job.bells)
+                lines.append({'bell': self.job.bells - 1})
             else:
                 raise RuntimeError('Bad LH change')
 
-            command = (
-                'psline "{bells}:{pn}"'
-                ' --pdf'
-                ' --output-file="{file}.pdf"'
-                ' --title="{name}"'
-                ' --line=1,0,1pt'
-                ' --line={line},0,2pt'
-            ).format(
-                bells=self.job.bells,
-                pn=method.format(),
-                file=os.path.join(self.job.name, self.dir_name,
-                                  method.full_name()),
-                name=method.full_name(),
-                line=line,
-            )
-            subprocess.check_call(command, shell=True)
+            driver.create_line(method, lines)
 
 
-class GridTask(PslineTaskBase):
+class GridTask(TaskBase):
+
     def execute(self):
+
+        driver = PsLineDriver()
+        driver.file_path = os.path.join(self.job.name, self.dir_name)
+        driver.filename_suffix = ' - Grid'
+        driver.suppress_rules = True
+        driver.total_leads = 1
+
         for method in self.job.methods.itervalues():
-            command = (
-                'psline "{bells}:{pn}"'
-                ' --pdf'
-                ' --output-file="{file} - grid.pdf"'
-                ' --title="{name}"'
-                ' --rule'
-                ' --total-leads=1'
-            ).format(
-                bells=self.job.bells,
-                pn=method.format(),
-                file=os.path.join(self.job.name, self.dir_name,
-                                  method.full_name()),
-                name=method.full_name(),
-            )
+            lines = []
 
             for bell in range(self.job.bells):
                 if method.lead_head()[bell] == bell:
                     weight = 1
                 else:
                     weight = 2
-                line = ' --line={bell},0,{weight}pt'.format(
-                    bell=bell_number_to_char(bell + 1),
-                    weight=weight,
-                )
-                command = command + line
+                lines.append({'bell': bell, 'weight': weight})
 
-            subprocess.check_call(command, shell=True)
+            driver.create_line(method, lines)
 
 
-class PlaceTask(PslineTaskBase):
+class PlaceTask(TaskBase):
+
     def execute(self):
+
+        driver = PsLineDriver()
+        driver.file_path = os.path.join(self.job.name, self.dir_name)
+        driver.total_leads = 1
+
         for method in self.job.methods.itervalues():
-            for place_bell in range(self.job.bells):
-                command = (
-                    'psline "{bells}:{pn}"'
-                    ' --pdf'
-                    ' --output-file="{file} - {bell}.pdf"'
-                    ' --title="{name}"'
-                    ' --total-leads=1'
-                    ' --place-bells={bell}'
-                    ' --line=1,0,1pt'
-                    ' --line={bell},0,2pt'
-                ).format(
-                    bells=self.job.bells,
-                    pn=method.format(),
-                    file=os.path.join(self.job.name, self.dir_name,
-                                      method.full_name()),
-                    bell=bell_number_to_char(place_bell + 1),
-                    name=method.full_name(),
-                )
-                subprocess.check_call(command, shell=True)
+            for bell in range(self.job.bells):
+                driver.filename_suffix = ' - {}'.format(bell)
+                driver.place_bells = bell
+                lines = [{'bell': 0, 'weight': 1}, {'bell': bell}]
+                driver.create_line(method, lines)
