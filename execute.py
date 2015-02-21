@@ -2,13 +2,11 @@
 import sys
 
 from lines import Job
-from lines.tasks import (
-    LineTask,
-    GridTask,
-    PlaceTask,
-    CompositionTask,
-    RowsTask,
-)
+from lines.execute.commands.composition import Command as CompositionTask
+from lines.execute.commands.grid import Command as GridTask
+from lines.execute.commands.line import Command as LineTask
+from lines.execute.commands.place import Command as PlaceTask
+from lines.execute.commands.rows import Command as RowsTask
 
 
 if len(sys.argv) < 2:

@@ -3,7 +3,7 @@ import os
 from ringing import Row, RowBlock
 import xlwt
 
-from lines.tasks.base import TaskBase
+from lines.execute.base import BaseCommand
 
 
 # Define some cell styles
@@ -45,7 +45,9 @@ CELL_STYLES[STYLE_METHOD_NAME].font.height = 220
 CELL_STYLES[STYLE_METHOD_NAME].font.bold = True
 
 
-class RowsTask(TaskBase):
+class Command(BaseCommand):
+
+    dir_name = 'rows'
     workbook = None
     worksheet = None
     row_index = 0

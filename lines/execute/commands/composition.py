@@ -4,10 +4,13 @@ import os
 
 from ringing import Row
 
-from lines.tasks.base import TaskBase
+from lines.execute.base import BaseCommand
 
 
-class CompositionTask(TaskBase):
+class Command(BaseCommand):
+
+    dir_name = 'composition'
+
     def execute(self):
         lead_head = Row(self.job.bells)
 
