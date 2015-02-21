@@ -5,8 +5,6 @@ from lines.execute.base import BaseCommand
 
 class Command(BaseCommand):
 
-    dir_name = 'grid'
-
     def execute(self):
 
         driver = PsLineDriver()

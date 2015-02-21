@@ -8,9 +8,6 @@ from lines.execute.base import BaseCommand
 
 
 class Command(BaseCommand):
-
-    dir_name = 'composition'
-
     def execute(self):
         lead_head = Row(self.job.bells)
 

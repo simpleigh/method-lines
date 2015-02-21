@@ -7,8 +7,6 @@ from lines.execute.base import BaseCommand
 
 class Command(BaseCommand):
 
-    dir_name = 'line'
-
     def execute(self):
 
         driver = PsLineDriver()

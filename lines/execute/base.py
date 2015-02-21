@@ -5,8 +5,9 @@ class BaseCommand(object):
     job = None
     dir_name = None
 
-    def __init__(self, job):
+    def __init__(self, job, dir_name):
         self.job = job
+        self.dir_name = dir_name
 
         self.check_environment()
 

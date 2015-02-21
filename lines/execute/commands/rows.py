@@ -46,8 +46,6 @@ CELL_STYLES[STYLE_METHOD_NAME].font.bold = True
 
 
 class Command(BaseCommand):
-
-    dir_name = 'rows'
     workbook = None
     worksheet = None
     row_index = 0

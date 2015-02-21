@@ -10,5 +10,5 @@ def execute(argv):
     job = Job(argv[1])
 
     module = import_module('lines.execute.commands.{}'.format(argv[2]))
-    task = module.Command(job)
+    task = module.Command(job, argv[2])
     task.execute()
