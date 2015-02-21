@@ -10,7 +10,7 @@ class Command(BaseCommand):
     def execute(self):
 
         driver = PsLineDriver()
-        driver.file_path = os.path.join(self.job.name, self.dir_name)
+        driver.file_path = os.path.join(self.job.path, self.dir_name)
         driver.filename_suffix = ' - Grid'
         driver.suppress_rules = True
         driver.total_leads = 1

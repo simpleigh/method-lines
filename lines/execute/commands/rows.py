@@ -72,13 +72,13 @@ class Command(BaseCommand):
         self.row_index = 0
         self.lead_head = Row(self.job.bells)
 
-        input_file = os.path.join(self.job.name, 'composition.txt')
+        input_file = os.path.join(self.job.path, 'composition.txt')
         with open(input_file) as input_file:
             for input_line in input_file:
                 method = self.job.methods[input_line.strip()]
                 self.print_method(method)
 
-        self.workbook.save(os.path.join(self.job.name, self.dir_name, 'rows.xls'))
+        self.workbook.save(os.path.join(self.job.path, self.dir_name, 'rows.xls'))
 
     def print_method(self, method):
         method.rows.set_start(self.lead_head)

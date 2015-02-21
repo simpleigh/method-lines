@@ -14,8 +14,8 @@ class Command(BaseCommand):
     def execute(self):
         lead_head = Row(self.job.bells)
 
-        input_file = os.path.join(self.job.name, 'composition.txt')
-        output_file = os.path.join(self.job.name, self.dir_name,
+        input_file = os.path.join(self.job.path, 'composition.txt')
+        output_file = os.path.join(self.job.path, self.dir_name,
                                    'composition.txt')
 
         with open(output_file, 'w') as output_file:

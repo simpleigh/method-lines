@@ -5,7 +5,7 @@ from lines import Job
 
 def execute(argv):
     if len(argv) < 3:
-        exit('Usage: %s job-name task-name' % argv[0])
+        exit('Usage: %s job-path task-name' % argv[0])
 
     job = Job(argv[1])
 

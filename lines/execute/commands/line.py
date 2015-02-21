@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def execute(self):
 
         driver = PsLineDriver()
-        driver.file_path = os.path.join(self.job.name, self.dir_name)
+        driver.file_path = os.path.join(self.job.path, self.dir_name)
 
         for method in self.job.methods.itervalues():
             lines = [{'bell': 0, 'weight': 1}]

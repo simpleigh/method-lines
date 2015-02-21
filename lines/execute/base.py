@@ -12,7 +12,7 @@ class BaseCommand(object):
 
     def check_environment(self):
         # Create output directory
-        output_dir = os.path.join(self.job.name, self.dir_name)
+        output_dir = os.path.join(self.job.path, self.dir_name)
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
 

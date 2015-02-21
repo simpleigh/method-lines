@@ -10,19 +10,19 @@ from lines.method import Method
 
 class Job(object):
 
-    def __init__(self, name):
-        self.name = self.load_name(name)
-        self.bells = self.load_bells(name)
-        self.methods = self.load_methods(name)
+    def __init__(self, path):
+        self.path = self.load_path(path)
+        self.bells = self.load_bells(path)
+        self.methods = self.load_methods(path)
 
-    def load_name(self, name):
-        if not os.path.exists(name):
-            raise RuntimeError("Cannot find job: '{job}'".format(job=name))
+    def load_path(self, path):
+        if not os.path.exists(path):
+            raise RuntimeError("Cannot find job path: '{}'".format(path))
 
-        return name
+        return path
 
-    def load_bells(self, name):
-        with open(os.path.join(name, 'bells.txt')) as bells_file:
+    def load_bells(self, path):
+        with open(os.path.join(path, 'bells.txt')) as bells_file:
             bells = int(bells_file.read().strip())
 
         if not (0 <= bells <= MAX_BELLS):
@@ -30,16 +30,16 @@ class Job(object):
 
         return bells
 
-    def load_methods(self, name):
+    def load_methods(self, path):
         methods = {}
-        with open(os.path.join(self.name, 'methods.txt'), 'rb') as method_file:
+        with open(os.path.join(path, 'methods.txt'), 'rb') as method_file:
             reader = csv.reader(method_file, delimiter='\t')
             for row in reader:
-                name, pn = row
+                path, pn = row
                 try:
-                    methods[name] = Method(pn, self.bells, name)
+                    methods[path] = Method(pn, self.bells, path)
                 except ValueError as e:
-                    print('Could not parse method %s' % name)
+                    print('Could not parse method %s' % path)
                     raise
 
         return methods
