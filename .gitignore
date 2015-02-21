@@ -1,5 +1,2 @@
-*/composition/composition.txt
-*/grid/*.pdf
-*/line/*.pdf
-*/place/*.pdf
-*/rows/rows.xls
+# /compositions/STAGE/JOB/COMMAND/OUTPUT
+/compositions/*/*/*/*
