@@ -24,7 +24,7 @@ class Command(BaseCommand):
                 print(*args, end='', file=file)
 
             if self.job.configs.has_config('calls'):
-                output('  ')
+                output(' ' * (longest_call + 1))
 
             output(Row(self.job.configs.bells))
 
