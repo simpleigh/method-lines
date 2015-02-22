@@ -5,6 +5,8 @@ class BaseCommand(object):
     job = None
     dir_name = None
 
+    run_on_all_command = True
+
     def __init__(self, job, dir_name):
         self.job = job
         self.dir_name = dir_name
