@@ -66,16 +66,16 @@ class Command(BaseCommand):
         self.worksheet.footer_margin = 0
 
         # Set up column widths
-        for column_index in range(self.job.bells + 1):
+        for column_index in range(self.job.configs.bells + 1):
             self.worksheet.col(column_index).width = 450  # 12px
 
         self.row_index = 0
-        self.lead_head = Row(self.job.bells)
+        self.lead_head = Row(self.job.configs.bells)
 
         input_file = os.path.join(self.job.path, 'composition.txt')
         with open(input_file) as input_file:
             for input_line in input_file:
-                method = self.job.methods[input_line.strip()]
+                method = self.job.configs.methods[input_line.strip()]
                 self.print_method(method)
 
         self.workbook.save(
@@ -89,7 +89,7 @@ class Command(BaseCommand):
             if index == 0:  # Method name
                 self.worksheet.write(
                     self.row_index,
-                    self.job.bells + 1,
+                    self.job.configs.bells + 1,
                     method.name,
                     CELL_STYLES[STYLE_METHOD_NAME],
                 )
@@ -103,7 +103,7 @@ class Command(BaseCommand):
         self.lead_head = method.rows[method.size]
 
     def print_row(self, row, lead_head=False):
-        styles = [STYLE_NORMAL for _ in range(self.job.bells)]
+        styles = [STYLE_NORMAL for _ in range(self.job.configs.bells)]
 
         previous_bell = row[0]
         bells_in_run = 1
@@ -114,15 +114,15 @@ class Command(BaseCommand):
             styles[from_bell + 1:to_bell] = [STYLE_RUN] * (to_bell - from_bell)
             styles[to_bell] = STYLE_RUN_END
 
-        for i in range(1, self.job.bells):
+        for i in range(1, self.job.configs.bells):
             current_bell = row[i]
             bell_difference = abs(current_bell - previous_bell)
-            if (bell_difference == 1 or bell_difference == self.job.bells - 2)\
+            if (bell_difference == 1 or bell_difference == self.job.configs.bells - 2)\
                     and previous_bell != 0 \
                     and current_bell != 0 \
                     and self.row_index != 0:
                 bells_in_run += 1
-                if i == self.job.bells - 1 and bells_in_run >= 4:
+                if i == self.job.configs.bells - 1 and bells_in_run >= 4:
                     paint_run(start_of_run, i)
             else:
                 if bells_in_run >= 4:

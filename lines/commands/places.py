@@ -13,8 +13,8 @@ class Command(BaseCommand):
         driver.file_path = self.get_output_directory()
         driver.total_leads = 1
 
-        for method in self.job.methods.itervalues():
-            for bell in range(self.job.bells):
+        for method in self.job.configs.methods.itervalues():
+            for bell in range(self.job.configs.bells):
                 driver.filename_suffix = ' - {}'.format(bell)
                 driver.place_bells = bell
                 lines = [{'bell': 0, 'weight': 1}, {'bell': bell}]
