@@ -72,11 +72,9 @@ class Command(BaseCommand):
         self.row_index = 0
         self.lead_head = Row(self.job.configs.bells)
 
-        input_file = os.path.join(self.job.path, 'composition.txt')
-        with open(input_file) as input_file:
-            for input_line in input_file:
-                method = self.job.configs.methods[input_line.strip()]
-                self.print_method(method)
+        for method_name in self.job.configs.composition:
+            method = self.job.configs.methods[method_name]
+            self.print_method(method)
 
         self.workbook.save(
             os.path.join(self.get_output_directory(), 'rows.xls')
