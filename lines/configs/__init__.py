@@ -32,6 +32,9 @@ class ConfigStore(object):
 
         return self._configs[name].data
 
+    def has_config(self, name):
+        return name in self._configs
+
 
 class BaseConfig(object):
 
