@@ -8,13 +8,18 @@ class Config(BaseConfig):
         composition = []
         with open(self.get_config_filename()) as file:
             for line in file:
-                method_name = line.strip()
+                line = line.strip()
 
-                if method_name not in self.job.configs.methods:
-                    raise RuntimeError(
-                        'Cannot find method "{}"'.format(method_name)
-                    )
+                # Check methods config SEPARATELY, BEFORE the calls config.
+                # This means we don't need a calls config if our composition
+                # only names methods (configs are loaded lazily as required).
 
-                composition.append(method_name)
+                if line not in self.job.configs.methods:
+                    if line not in self.job.configs.calls:
+                        raise RuntimeError(
+                            'Cannot find method or call "{}"'.format(line)
+                        )
+
+                composition.append(line)
 
         return composition

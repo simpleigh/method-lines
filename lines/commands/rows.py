@@ -18,8 +18,9 @@ STYLE_RUN_START_LH = 5
 STYLE_RUN_LH = 6
 STYLE_RUN_END_LH = 7
 STYLE_METHOD_NAME = 8
+STYLE_CALL = 9
 
-CELL_STYLES = range(9)
+CELL_STYLES = range(10)
 CELL_STYLES[STYLE_NORMAL] = xlwt.XFStyle()
 CELL_STYLES[STYLE_NORMAL].font.name = 'Calibri'
 CELL_STYLES[STYLE_NORMAL].font.height = 220
@@ -45,6 +46,8 @@ CELL_STYLES[STYLE_METHOD_NAME] = xlwt.XFStyle()
 CELL_STYLES[STYLE_METHOD_NAME].font.name = 'Calibri'
 CELL_STYLES[STYLE_METHOD_NAME].font.height = 220
 CELL_STYLES[STYLE_METHOD_NAME].font.bold = True
+
+CELL_STYLES[STYLE_CALL] = copy.deepcopy(CELL_STYLES[STYLE_METHOD_NAME])
 
 
 class Command(BaseCommand):
@@ -72,33 +75,37 @@ class Command(BaseCommand):
         self.row_index = 0
         self.lead_head = Row(self.job.configs.bells)
 
-        for method_name in self.job.configs.composition:
-            method = self.job.configs.methods[method_name]
-            self.print_method(method)
+        for lead in self.job.leads:
+            self.print_lead(lead)
 
         self.workbook.save(
             os.path.join(self.get_output_directory(), 'rows.xls')
         )
 
-    def print_method(self, method):
-        method.rows.set_start(self.lead_head)
-        method.rows.recalculate()
-        for index, row in enumerate(method.rows):
-            if index == 0:  # Method name
+    def print_lead(self, lead):
+        for index, row in enumerate(lead.rows):
+            if index == 0:  # Method name and call
                 self.worksheet.write(
                     self.row_index,
                     self.job.configs.bells + 1,
-                    method.name,
+                    lead.method_name,
                     CELL_STYLES[STYLE_METHOD_NAME],
                 )
 
-            if index == 0 or index == method.size:  # Lead head
+                self.worksheet.write(
+                    self.row_index + lead.method_object.size - 1,
+                    self.job.configs.bells + 1,
+                    lead.call_symbol,
+                    CELL_STYLES[STYLE_CALL],
+                )
+
+            if index == 0 or index == lead.method_object.size:  # Lead head
                 self.print_row(row, True)
             else:
                 self.print_row(row)
 
         self.row_index -= 1  # Go back one row to overwrite last lead head
-        self.lead_head = method.rows[method.size]
+        self.lead_head = lead.lead_head
 
     def print_row(self, row, lead_head=False):
         styles = [STYLE_NORMAL for _ in range(self.job.configs.bells)]

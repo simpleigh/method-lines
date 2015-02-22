@@ -10,19 +10,25 @@ from lines.commands import BaseCommand
 class Command(BaseCommand):
 
     def execute(self):
-        lead_head = Row(self.job.configs.bells)
+        if self.job.configs.has_config('calls'):
+            longest_call = max([len(s) for s in self.job.configs.calls.keys()])
+            format_string = '  {0.method_name}\n{0.call_symbol:' + \
+                str(longest_call) + '} {0.lead_head}'
+        else:
+            format_string = '  {0.method_name}\n{0.lead_head}'
 
-        output_file = os.path.join(self.get_output_directory(),
-                                   'composition.txt')
+        file = os.path.join(self.get_output_directory(), 'composition.txt')
+        with open(file, 'w') as file:
 
-        with open(output_file, 'w') as output_file:
-            for method_name in self.job.configs.composition:
-                method = self.job.configs.methods[method_name]
-                output_line = '{lead_head}  {method}'.format(
-                    lead_head=lead_head,
-                    method=method.name,
-                )
-                print(output_line, file=output_file)
-                lead_head = lead_head * method.lead_head()
+            def output(*args):
+                print(*args, end='', file=file)
 
-            print(lead_head, file=output_file)
+            if self.job.configs.has_config('calls'):
+                output('  ')
+
+            output(Row(self.job.configs.bells))
+
+            for lead in self.job.leads:
+                output(format_string.format(lead))
+
+            output('\n')
