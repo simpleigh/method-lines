@@ -5,18 +5,14 @@ import os
 from sys import exit
 
 from lines import Job
+from lines.utils import find_modules
 
 
 def get_commands():
     """
     Returns a list of supported commands.
     """
-    return [
-        file[:-3]  # Trim extension
-        for file
-        in os.listdir(os.path.dirname(__file__))
-        if not file.startswith('_') and file.endswith('.py')
-    ]
+    return find_modules(os.path.dirname(__file__))
 
 
 def get_command_object(job, command_name):
