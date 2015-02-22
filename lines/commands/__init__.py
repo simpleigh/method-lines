@@ -35,8 +35,6 @@ def execute(argv):
 
 
 class BaseCommand(object):
-    job = None
-    dir_name = None
 
     requires_output_directory = True
     run_on_all_command = True
@@ -48,10 +46,24 @@ class BaseCommand(object):
         if self.requires_output_directory:
             self.create_output_directory()
 
+    def get_output_directory(self):
+        """
+        Returns the path of the directory that will contain output artefacts.
+        """
+        return os.path.join(self.job.path, self.dir_name)
+
     def create_output_directory(self):
-        output_dir = os.path.join(self.job.path, self.dir_name)
+        """
+        Creates the directory to contain output artefacts.
+        """
+        output_dir = self.get_output_directory()
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
 
     def execute(self):
+        """
+        Runs the command.
+
+        Derived commands must override this method.
+        """
         raise NotImplementedError

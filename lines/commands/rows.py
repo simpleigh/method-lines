@@ -78,7 +78,9 @@ class Command(BaseCommand):
                 method = self.job.methods[input_line.strip()]
                 self.print_method(method)
 
-        self.workbook.save(os.path.join(self.job.path, self.dir_name, 'rows.xls'))
+        self.workbook.save(
+            os.path.join(self.get_output_directory(), 'rows.xls')
+        )
 
     def print_method(self, method):
         method.rows.set_start(self.lead_head)

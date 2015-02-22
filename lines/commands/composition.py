@@ -12,7 +12,7 @@ class Command(BaseCommand):
         lead_head = Row(self.job.bells)
 
         input_file = os.path.join(self.job.path, 'composition.txt')
-        output_file = os.path.join(self.job.path, self.dir_name,
+        output_file = os.path.join(self.get_output_directory(),
                                    'composition.txt')
 
         with open(output_file, 'w') as output_file:

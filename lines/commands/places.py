@@ -10,7 +10,7 @@ class Command(BaseCommand):
     def execute(self):
 
         driver = PsLineDriver()
-        driver.file_path = os.path.join(self.job.path, self.dir_name)
+        driver.file_path = self.get_output_directory()
         driver.total_leads = 1
 
         for method in self.job.methods.itervalues():
