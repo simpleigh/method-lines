@@ -29,11 +29,13 @@ def get_command_object(job, command_name):
 
 def execute(argv):
     if len(argv) < 3:
-        exit('Usage: %s job-path task-name' % argv[0])
+        exit('Usage: %s task-name job-path [job-path [...]]' % argv[0])
 
-    job = Job(argv[1])
-    command = get_command_object(job, argv[2])
-    command.execute()
+    task_name = argv[1]
+    for job_path in argv[2:]:
+        job = Job(job_path)
+        command = get_command_object(job, task_name)
+        command.execute()
 
 
 class BaseCommand(object):
