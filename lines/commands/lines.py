@@ -4,8 +4,8 @@ import os
 
 from ringing import Change
 
+from lines.commands import BaseCommand
 from lines.psline import PsLineDriver
-from lines.execute.base import BaseCommand
 
 class Command(BaseCommand):
 

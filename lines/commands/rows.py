@@ -5,7 +5,7 @@ import os
 from ringing import Row, RowBlock
 import xlwt
 
-from lines.execute.base import BaseCommand
+from lines.commands import BaseCommand
 
 
 # Define some cell styles

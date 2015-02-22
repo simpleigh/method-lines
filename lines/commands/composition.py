@@ -4,7 +4,7 @@ import os
 
 from ringing import Row
 
-from lines.execute.base import BaseCommand
+from lines.commands import BaseCommand
 
 
 class Command(BaseCommand):

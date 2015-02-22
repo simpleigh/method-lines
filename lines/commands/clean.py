@@ -3,8 +3,7 @@ from __future__ import absolute_import
 import os
 import shutil
 
-from lines.execute import get_commands
-from lines.execute.base import BaseCommand
+from lines.commands import get_commands, BaseCommand
 
 class Command(BaseCommand):
 

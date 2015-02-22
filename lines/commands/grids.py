@@ -2,8 +2,8 @@ from __future__ import absolute_import
 
 import os
 
+from lines.commands import BaseCommand
 from lines.psline import PsLineDriver
-from lines.execute.base import BaseCommand
 
 class Command(BaseCommand):
 

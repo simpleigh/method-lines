@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 
-from lines.execute import get_commands, get_command_object
-from lines.execute.base import BaseCommand
+from lines.commands import get_commands, get_command_object, BaseCommand
 
 class Command(BaseCommand):
 
