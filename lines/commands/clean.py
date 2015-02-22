@@ -7,6 +7,7 @@ from lines.commands import get_commands, BaseCommand
 
 class Command(BaseCommand):
 
+    requires_output_directory = False
     run_on_all_command = False
 
     def execute(self):
@@ -14,9 +15,3 @@ class Command(BaseCommand):
             output_dir = os.path.join(self.job.path, command_name)
             if os.path.isdir(output_dir):
                 shutil.rmtree(output_dir)
-
-    def check_environment(self):
-        """
-        Override so we don't create the output directory.
-        """
-        pass

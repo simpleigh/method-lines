@@ -4,6 +4,7 @@ from lines.commands import get_commands, get_command_object, BaseCommand
 
 class Command(BaseCommand):
 
+    requires_output_directory = False
     run_on_all_command = False
 
     def execute(self):
@@ -11,9 +12,3 @@ class Command(BaseCommand):
             command = get_command_object(self.job, command_name)
             if command.run_on_all_command:
                 command.execute()
-
-    def check_environment(self):
-        """
-        Override so we don't create the output directory.
-        """
-        pass
