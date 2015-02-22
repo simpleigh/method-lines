@@ -20,7 +20,7 @@ def get_command_object(job, command_name):
     Returns the Command object of the named command.
     """
     module = import_module('lines.commands.{}'.format(command_name))
-    return module.Command(job, command_name)
+    return module.Command(job)
 
 
 def execute(argv):
@@ -39,9 +39,8 @@ class BaseCommand(object):
     requires_output_directory = True
     run_on_all_command = True
 
-    def __init__(self, job, dir_name):
+    def __init__(self, job):
         self.job = job
-        self.dir_name = dir_name
 
         if self.requires_output_directory:
             self.create_output_directory()
@@ -50,7 +49,9 @@ class BaseCommand(object):
         """
         Returns the path of the directory that will contain output artefacts.
         """
-        return os.path.join(self.job.path, self.dir_name)
+        module_prefix_length = len('lines.commands.')
+        command_name = self.__module__[module_prefix_length:]
+        return os.path.join(self.job.path, command_name)
 
     def create_output_directory(self):
         """
