@@ -5,7 +5,7 @@ import os
 from sys import exit
 
 from lines import Job
-from lines.utils import find_modules
+from lines.utils import find_modules, get_last_module_part
 
 
 def get_commands():
@@ -49,8 +49,7 @@ class BaseCommand(object):
         """
         Returns the path of the directory that will contain output artefacts.
         """
-        module_prefix_length = len('lines.commands.')
-        command_name = self.__module__[module_prefix_length:]
+        command_name = get_last_module_part(self.__module__)
         return os.path.join(self.job.path, command_name)
 
     def create_output_directory(self):
