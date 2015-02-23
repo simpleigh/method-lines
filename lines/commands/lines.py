@@ -18,11 +18,17 @@ class Command(BaseCommand):
             lines = [{'bell': 0, 'weight': 1}]
 
             lh_change = method[method.length - 1]
-            if lh_change == Change(self.job.configs.bells, '2'):
+            nths_place = self.job.configs.bells - 1
+
+            # Choose a bell to draw
+            if lh_change.find_place(nths_place):
+                lines.append({'bell': nths_place})
+                driver.place_bells = nths_place
+            elif lh_change.find_place(1):
                 lines.append({'bell': 1})
-            elif lh_change == Change(self.job.configs.bells, '1'):
-                lines.append({'bell': self.job.configs.bells - 1})
+                driver.place_bells = 1
             else:
-                raise RuntimeError('Bad LH change')
+                lines.append({'bell': nths_place})
+                driver.place_bells = nths_place
 
             driver.create_line(method, lines)
