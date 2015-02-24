@@ -67,6 +67,9 @@ class Command(BaseCommand):
         self.worksheet.left_margin = 0.4
         self.worksheet.header_margin = 0
         self.worksheet.footer_margin = 0
+        self.worksheet.header_str = ''
+        self.worksheet.footer_str = ''
+        self.worksheet.print_centered_horz = 0
 
         # Set up column widths
         for column_index in range(self.job.configs.bells + 1):
