@@ -14,8 +14,8 @@ class Config(BaseConfig):
                 # This means we don't need a calls config if our composition
                 # only names methods (configs are loaded lazily as required).
 
-                if line not in self.job.configs.methods:
-                    if line not in self.job.configs.calls:
+                if line not in self.configs.methods:
+                    if line not in self.configs.calls:
                         raise RuntimeError(
                             'Cannot find method or call "{}"'.format(line)
                         )

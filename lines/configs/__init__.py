@@ -11,15 +11,15 @@ class ConfigStore(object):
     Lazily loads config information as it is required.
     """
 
-    def __init__(self, job):
-        self.job = job
+    def __init__(self, path):
+        self.path = path
 
         # Set up a dictionary with possible config names as keys
         self._configs = {
             module: None
             for module
             in find_modules(os.path.dirname(__file__))
-            if os.path.isfile(os.path.join(self.job.path, module + '.txt'))
+            if os.path.isfile(os.path.join(path, module + '.txt'))
         }
 
     def __getattr__(self, name):
@@ -28,7 +28,7 @@ class ConfigStore(object):
 
         if self._configs[name] is None:
             module = import_module('lines.configs.{}'.format(name))
-            self._configs[name] = module.Config(self.job)
+            self._configs[name] = module.Config(self)
 
         return self._configs[name].data
 
@@ -38,8 +38,8 @@ class ConfigStore(object):
 
 class BaseConfig(object):
 
-    def __init__(self, job):
-        self.job = job
+    def __init__(self, configs):
+        self.configs = configs
         self.data = self.load_data()
 
     def get_config_filename(self):
@@ -47,7 +47,7 @@ class BaseConfig(object):
         Returns the path of the config file.
         """
         config_name = get_last_module_part(self.__module__)
-        return os.path.join(self.job.path, config_name + '.txt')
+        return os.path.join(self.configs.path, config_name + '.txt')
 
     def load_data(self):
         """

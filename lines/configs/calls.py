@@ -15,10 +15,7 @@ class Config(BaseConfig):
             for row in reader:
                 call, place_notation = row
                 try:
-                    calls[call] = Change(
-                        self.job.configs.bells,
-                        place_notation
-                    )
+                    calls[call] = Change(self.configs.bells, place_notation)
                 except ValueError as e:
                     print('Could not parse call {}'.format(name))
                     raise

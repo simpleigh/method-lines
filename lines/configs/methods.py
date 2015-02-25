@@ -17,7 +17,7 @@ class Config(BaseConfig):
                 try:
                     methods[base_name] = Method(
                         place_notation,
-                        self.job.configs.bells,
+                        self.configs.bells,
                         base_name
                     )
                 except ValueError as e:

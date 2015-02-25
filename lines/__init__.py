@@ -39,7 +39,7 @@ class Job(object):
             raise RuntimeError("Cannot find job path: '{}'".format(path))
         self.path = path
 
-        self.configs = ConfigStore(self)
+        self.configs = ConfigStore(path)
 
     @property
     def leads(self):
