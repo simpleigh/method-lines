@@ -9,51 +9,46 @@ from lines.commands.rows.styles import *
 
 
 class Command(BaseCommand):
-    workbook = None
-    worksheet = None
     row_index = 0
     lead_head = None
 
     def execute(self):
-        self.workbook = xlwt.Workbook()
-        self.worksheet = self.workbook.add_sheet('Rows',
-                                                 cell_overwrite_ok=True)
+        workbook = xlwt.Workbook()
+        worksheet = workbook.add_sheet('Rows', cell_overwrite_ok=True)
 
-        self.worksheet.top_margin = 0.4
-        self.worksheet.right_margin = 0.4
-        self.worksheet.bottom_margin = 0.4
-        self.worksheet.left_margin = 0.4
-        self.worksheet.header_margin = 0
-        self.worksheet.footer_margin = 0
-        self.worksheet.header_str = ''
-        self.worksheet.footer_str = ''
-        self.worksheet.print_centered_horz = 0
+        worksheet.top_margin = 0.4
+        worksheet.right_margin = 0.4
+        worksheet.bottom_margin = 0.4
+        worksheet.left_margin = 0.4
+        worksheet.header_margin = 0
+        worksheet.footer_margin = 0
+        worksheet.header_str = ''
+        worksheet.footer_str = ''
+        worksheet.print_centered_horz = 0
 
         # Set up column widths
         for column_index in range(self.job.configs.bells + 1):
-            self.worksheet.col(column_index).width = 450  # 12px
+            worksheet.col(column_index).width = 450  # 12px
 
         self.row_index = 0
         self.lead_head = Row(self.job.configs.bells)
 
         for lead in self.job.leads:
-            self.print_lead(lead)
+            self.print_lead(lead, worksheet)
 
-        self.workbook.save(
-            os.path.join(self.get_output_directory(), 'rows.xls')
-        )
+        workbook.save(os.path.join(self.get_output_directory(), 'rows.xls'))
 
-    def print_lead(self, lead):
+    def print_lead(self, lead, worksheet):
         for index, row in enumerate(lead.rows):
             if index == 0:  # Method name and call
-                self.worksheet.write(
+                worksheet.write(
                     self.row_index,
                     self.job.configs.bells + 1,
                     lead.method_name,
                     CELL_STYLES[STYLE_METHOD_NAME],
                 )
 
-                self.worksheet.write(
+                worksheet.write(
                     self.row_index + lead.method_object.size - 1,
                     self.job.configs.bells + 1,
                     lead.call_symbol,
@@ -61,14 +56,14 @@ class Command(BaseCommand):
                 )
 
             if index == 0 or index == lead.method_object.size:  # Lead head
-                self.print_row(row, True)
+                self.print_row(row, worksheet, True)
             else:
-                self.print_row(row)
+                self.print_row(row, worksheet)
 
         self.row_index -= 1  # Go back one row to overwrite last lead head
         self.lead_head = lead.lead_head
 
-    def print_row(self, row, lead_head=False):
+    def print_row(self, row, worksheet, lead_head=False):
         styles = [STYLE_NORMAL for _ in range(self.job.configs.bells)]
 
         previous_bell = row[0]
@@ -102,7 +97,7 @@ class Command(BaseCommand):
             styles = map(lambda style: style + 4, styles)
 
         for index, bell in enumerate(str(row)):
-            self.worksheet.write(
+            worksheet.write(
                 self.row_index,
                 index,
                 bell,
