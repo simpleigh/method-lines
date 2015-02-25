@@ -14,6 +14,17 @@ class Command(BaseCommand):
 
     def execute(self):
         workbook = xlwt.Workbook()
+        worksheet = self.create_worksheet(workbook)
+
+        self.row_index = 0
+        self.lead_head = Row(self.job.configs.bells)
+
+        for lead in self.job.leads:
+            self.print_lead(lead, worksheet)
+
+        workbook.save(os.path.join(self.get_output_directory(), 'rows.xls'))
+
+    def create_worksheet(self, workbook):
         worksheet = workbook.add_sheet('Rows', cell_overwrite_ok=True)
 
         worksheet.top_margin = 0.4
@@ -30,13 +41,7 @@ class Command(BaseCommand):
         for column_index in range(self.job.configs.bells + 1):
             worksheet.col(column_index).width = 450  # 12px
 
-        self.row_index = 0
-        self.lead_head = Row(self.job.configs.bells)
-
-        for lead in self.job.leads:
-            self.print_lead(lead, worksheet)
-
-        workbook.save(os.path.join(self.get_output_directory(), 'rows.xls'))
+        return worksheet
 
     def print_lead(self, lead, worksheet):
         for index, row in enumerate(lead.rows):
