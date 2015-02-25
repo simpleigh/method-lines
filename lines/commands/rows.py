@@ -128,13 +128,33 @@ class Command(BaseCommand):
             styles[from_bell + 1:to_bell] = [STYLE_RUN] * (to_bell - from_bell)
             styles[to_bell] = STYLE_RUN_END
 
+        # Loop over bells in the row to determine if we're in a run
         for i in range(1, self.composition.configs.bells):
             current_bell = row[i]
             bell_difference = abs(current_bell - previous_bell)
-            if (bell_difference == 1 or bell_difference == self.composition.configs.bells - 2)\
-                    and previous_bell != 0 \
-                    and current_bell != 0 \
-                    and self.row_index != 0:
+            in_run = False
+
+            if bell_difference == 1:
+                in_run = True
+            elif self.composition.is_cyclic:
+                # Highlight cyclic runs
+                if self.composition.is_treble_fixed:
+                    if bell_difference == self.composition.configs.bells - 2:
+                        in_run = True
+                else:
+                    if bell_difference == self.composition.configs.bells - 1:
+                        in_run = True
+
+            # Exclude the treble in treble-fixed compositions
+            if self.composition.is_treble_fixed:
+                if previous_bell == 0 or current_bell == 0:
+                    in_run = False
+
+            # Don't highlight the opening rounds
+            if self.row_index == 0:
+                in_run = False
+
+            if in_run:
                 bells_in_run += 1
                 if i == self.composition.configs.bells - 1 and bells_in_run >= 4:
                     paint_run(start_of_run, i)
