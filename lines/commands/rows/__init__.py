@@ -14,18 +14,24 @@ class Command(BaseCommand):
 
     def execute(self):
         workbook = xlwt.Workbook()
-        worksheet = self.create_worksheet(workbook)
 
+        portrait_worksheet = self.create_worksheet(workbook, 'Portrait')
         self.row_index = 0
         self.lead_head = Row(self.job.configs.bells)
-
         for lead in self.job.leads:
-            self.print_lead(lead, worksheet)
+            self.print_lead(lead, portrait_worksheet)
+
+        landscape_worksheet = self.create_worksheet(workbook, 'Landscape')
+        landscape_worksheet.portrait = 0
+        self.row_index = 0
+        self.lead_head = Row(self.job.configs.bells)
+        for lead in self.job.leads:
+            self.print_lead(lead, landscape_worksheet)
 
         workbook.save(os.path.join(self.get_output_directory(), 'rows.xls'))
 
-    def create_worksheet(self, workbook):
-        worksheet = workbook.add_sheet('Rows', cell_overwrite_ok=True)
+    def create_worksheet(self, workbook, name):
+        worksheet = workbook.add_sheet(name, cell_overwrite_ok=True)
 
         worksheet.top_margin = 0.4
         worksheet.right_margin = 0.4
