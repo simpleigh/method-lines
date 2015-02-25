@@ -32,3 +32,6 @@ class Command(BaseCommand):
                 output(format_string.format(lead))
 
             output('\n')
+            output('\n')
+            output('{} part.'.format(self.job.parts))
+            output('\n')
