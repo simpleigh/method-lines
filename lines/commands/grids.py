@@ -15,10 +15,10 @@ class Command(BaseCommand):
         driver.suppress_rules = True
         driver.total_leads = 1
 
-        for method in self.job.configs.methods.itervalues():
+        for method in self.composition.configs.methods.itervalues():
             lines = []
 
-            for bell in range(self.job.configs.bells):
+            for bell in range(self.composition.configs.bells):
                 if method.lead_head()[bell] == bell:
                     weight = 1
                 else:

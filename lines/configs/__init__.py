@@ -6,7 +6,7 @@ from lines.utils import find_modules, get_last_module_part
 
 class ConfigStore(object):
     """
-    Contains available configs for a job.
+    Contains available configs for a composition.
 
     Lazily loads config information as it is required.
     """

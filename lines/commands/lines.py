@@ -14,11 +14,11 @@ class Command(BaseCommand):
         driver = PsLineDriver()
         driver.file_path = self.get_output_directory()
 
-        for method in self.job.configs.methods.itervalues():
+        for method in self.composition.configs.methods.itervalues():
             lines = [{'bell': 0, 'weight': 1}]
 
             lh_change = method[method.length - 1]
-            nths_place = self.job.configs.bells - 1
+            nths_place = self.composition.configs.bells - 1
 
             # Choose a bell to draw
             if lh_change.find_place(nths_place):

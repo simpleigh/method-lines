@@ -10,8 +10,11 @@ from lines.commands import BaseCommand
 class Command(BaseCommand):
 
     def execute(self):
-        if self.job.configs.has_config('calls'):
-            longest_call = max([len(s) for s in self.job.configs.calls.keys()])
+        if self.composition.configs.has_config('calls'):
+            longest_call = max(map(
+                lambda s: len(s),
+                self.composition.configs.calls.keys()
+            ))
             format_string = '  {0.method_name}\n{0.call_symbol:' + \
                 str(longest_call) + '} {0.lead_head}'
         else:
@@ -23,15 +26,15 @@ class Command(BaseCommand):
             def output(*args):
                 print(*args, end='', file=file)
 
-            if self.job.configs.has_config('calls'):
+            if self.composition.configs.has_config('calls'):
                 output(' ' * (longest_call + 1))
 
-            output(Row(self.job.configs.bells))
+            output(Row(self.composition.configs.bells))
 
-            for lead in self.job.leads:
+            for lead in self.composition.leads:
                 output(format_string.format(lead))
 
             output('\n')
             output('\n')
-            output('{} part.'.format(self.job.parts))
+            output('{} part.'.format(self.composition.parts))
             output('\n')

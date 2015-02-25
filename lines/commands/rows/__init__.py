@@ -17,15 +17,15 @@ class Command(BaseCommand):
 
         portrait_worksheet = self.create_worksheet(workbook, 'Portrait')
         self.row_index = 0
-        self.lead_head = Row(self.job.configs.bells)
-        for lead in self.job.leads:
+        self.lead_head = Row(self.composition.configs.bells)
+        for lead in self.composition.leads:
             self.print_lead(lead, portrait_worksheet)
 
         landscape_worksheet = self.create_worksheet(workbook, 'Landscape')
         landscape_worksheet.portrait = 0
         self.row_index = 0
-        self.lead_head = Row(self.job.configs.bells)
-        for lead in self.job.leads:
+        self.lead_head = Row(self.composition.configs.bells)
+        for lead in self.composition.leads:
             self.print_lead(lead, landscape_worksheet)
 
         workbook.save(os.path.join(self.get_output_directory(), 'rows.xls'))
@@ -44,7 +44,7 @@ class Command(BaseCommand):
         worksheet.print_centered_horz = 0
 
         # Set up column widths
-        for column_index in range(self.job.configs.bells + 1):
+        for column_index in range(self.composition.configs.bells + 1):
             worksheet.col(column_index).width = 450  # 12px
 
         return worksheet
@@ -54,14 +54,14 @@ class Command(BaseCommand):
             if index == 0:  # Method name and call
                 worksheet.write(
                     self.row_index,
-                    self.job.configs.bells + 1,
+                    self.composition.configs.bells + 1,
                     lead.method_name,
                     CELL_STYLES[STYLE_METHOD_NAME],
                 )
 
                 worksheet.write(
                     self.row_index + lead.method_object.size - 1,
-                    self.job.configs.bells + 1,
+                    self.composition.configs.bells + 1,
                     lead.call_symbol,
                     CELL_STYLES[STYLE_CALL],
                 )
@@ -75,7 +75,7 @@ class Command(BaseCommand):
         self.lead_head = lead.lead_head
 
     def print_row(self, row, worksheet, lead_head=False):
-        styles = [STYLE_NORMAL for _ in range(self.job.configs.bells)]
+        styles = [STYLE_NORMAL for _ in range(self.composition.configs.bells)]
 
         previous_bell = row[0]
         bells_in_run = 1
@@ -86,15 +86,15 @@ class Command(BaseCommand):
             styles[from_bell + 1:to_bell] = [STYLE_RUN] * (to_bell - from_bell)
             styles[to_bell] = STYLE_RUN_END
 
-        for i in range(1, self.job.configs.bells):
+        for i in range(1, self.composition.configs.bells):
             current_bell = row[i]
             bell_difference = abs(current_bell - previous_bell)
-            if (bell_difference == 1 or bell_difference == self.job.configs.bells - 2)\
+            if (bell_difference == 1 or bell_difference == self.composition.configs.bells - 2)\
                     and previous_bell != 0 \
                     and current_bell != 0 \
                     and self.row_index != 0:
                 bells_in_run += 1
-                if i == self.job.configs.bells - 1 and bells_in_run >= 4:
+                if i == self.composition.configs.bells - 1 and bells_in_run >= 4:
                     paint_run(start_of_run, i)
             else:
                 if bells_in_run >= 4:

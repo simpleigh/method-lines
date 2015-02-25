@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
     def execute(self):
         for command_name in get_commands():
-            command = get_command_object(self.job, command_name)
+            command = get_command_object(self.composition, command_name)
             output_dir = command.get_output_directory()
             if os.path.isdir(output_dir):
                 shutil.rmtree(output_dir)

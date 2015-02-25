@@ -12,11 +12,11 @@ class Command(BaseCommand):
         driver.suppress_rules = True
         driver.total_leads = 1
 
-        for method in self.job.configs.methods.itervalues():
-            for pair in range(0, self.job.configs.bells, 2):
+        for method in self.composition.configs.methods.itervalues():
+            for pair in range(0, self.composition.configs.bells, 2):
                 driver.filename_suffix = ' - {}'.format(pair)
                 lines = []
-                for bell in range(self.job.configs.bells):
+                for bell in range(self.composition.configs.bells):
                     if pair <= bell <= pair + 1:
                         weight = 2
                     else:

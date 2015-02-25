@@ -9,6 +9,6 @@ class Command(BaseCommand):
 
     def execute(self):
         for command_name in get_commands():
-            command = get_command_object(self.job, command_name)
+            command = get_command_object(self.composition, command_name)
             if command.run_on_all_command:
                 command.execute()
