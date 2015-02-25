@@ -32,6 +32,7 @@ class Job(object):
     """
 
     _leads = None
+    _is_cyclic = None
 
     def __init__(self, path):
         if not os.path.exists(path):
@@ -42,7 +43,9 @@ class Job(object):
 
     @property
     def leads(self):
-
+        """
+        A list containing the leads of the composition.
+        """
         if self._leads is None:
 
             lead_specifications = []
@@ -67,3 +70,48 @@ class Job(object):
                 lead_head = self._leads[-1].lead_head
 
         return self._leads
+
+    @property
+    def part_end(self):
+        """
+        Part end (lead head of the last lead of the part).
+        """
+        return self.leads[-1].lead_head
+
+    @property
+    def parts(self):
+        """
+        Number of parts in the composition (order of the part end).
+        """
+        return self.part_end.order()
+
+    @property
+    def is_treble_fixed(self):
+        """
+        Whether the treble returns home at the part end.
+        """
+        return self.part_end[0] == 0
+
+    @property
+    def is_cyclic(self):
+        """
+        Whether the composition has a cyclic part end.
+        """
+
+        if self._is_cyclic is None:
+            # Rows don't have an is_cyclic method (why not?)
+            # Generate all cyclic part ends and see if ours is one of them.
+            if self.is_treble_fixed:
+                cyclic_part_ends = [
+                    Row.cyclic(self.configs.bells, 1, n)
+                    for n in range(self.configs.bells - 1)
+                ]
+            else:
+                cyclic_part_ends = [
+                    Row.cyclic(self.configs.bells, 0, n)
+                    for n in range(self.configs.bells)
+                ]
+
+            self._is_cyclic = self.part_end in cyclic_part_ends
+
+        return self._is_cyclic
