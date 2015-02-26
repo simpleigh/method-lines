@@ -32,6 +32,11 @@ class Command(BaseCommand):
                 stage=Method.stage_name(self.composition.configs.bells),
             ))
 
+            # Number of methods
+            output('({}m)\n'.format(len(self.composition.configs.methods)))
+
+            output('\n')
+
             if self.composition.configs.has_config('calls'):
                 output(' ' * (longest_call + 1))
 
