@@ -2,7 +2,7 @@ from __future__ import absolute_import, print_function
 
 import os
 
-from ringing import Row
+from ringing import Row, Method
 
 from lines.commands import BaseCommand
 
@@ -25,6 +25,12 @@ class Command(BaseCommand):
 
             def output(*args):
                 print(*args, end='', file=file)
+
+            # Title
+            output('{length} {stage}\n'.format(
+                length=self.composition.length,
+                stage=Method.stage_name(self.composition.configs.bells),
+            ))
 
             if self.composition.configs.has_config('calls'):
                 output(' ' * (longest_call + 1))

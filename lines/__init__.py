@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 
 from ringing import Row, RowBlock
@@ -115,3 +117,14 @@ class Composition(object):
             self._is_cyclic = self.part_end in cyclic_part_ends
 
         return self._is_cyclic
+
+    @property
+    def length(self):
+        """
+        Length of the touch.
+
+        Computed naïvely: assume rounds will only occur at a part end, i.e.
+        total length = length of part × number of parts
+        """
+        length_of_part = sum(map(lambda l: l.method_object.size, self.leads))
+        return length_of_part * self.parts
