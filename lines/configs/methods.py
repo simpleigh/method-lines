@@ -1,6 +1,10 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, unicode_literals
+
 import csv
 
 from ringing import Method
+import six
 
 from lines.configs import BaseConfig
 
@@ -11,7 +15,7 @@ class Config(BaseConfig):
 
         methods = {}
         with open(self.get_config_filename(), 'rb') as file:
-            reader = csv.reader(file, delimiter='\t')
+            reader = csv.reader(file, delimiter=b'\t' if six.PY2 else '\t')
             for row in reader:
                 base_name, place_notation = row
                 try:

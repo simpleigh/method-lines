@@ -1,8 +1,11 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, unicode_literals
+
 from os import path
 
 from ringing import Row
 
-from utils.shell import execute
+from lines.utils.shell import execute
 
 
 def bell_number_to_char(num):
