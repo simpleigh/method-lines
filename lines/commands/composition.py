@@ -26,6 +26,7 @@ class Command(BaseCommand):
         with open(file, 'w') as file:
 
             def output(*args):
+                """Prints a line to the output file without any newline."""
                 print(*args, end='', file=file)
 
             # Title
@@ -62,6 +63,7 @@ class Command(BaseCommand):
             ))
             output('\n')
 
+            # Rows of the composition
             if self.composition.configs.has_config('calls'):
                 output(' ' * (longest_call + 1))
 
@@ -72,4 +74,6 @@ class Command(BaseCommand):
 
             output('\n')
             output('\n')
+
+            # Composition statistics
             output('{0.parts} part. {0.com} com.\n'.format(self.composition))
