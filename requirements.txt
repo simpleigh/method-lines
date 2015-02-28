@@ -1,2 +1,2 @@
+XlsxWriter==0.6.6
 ringing-lib==0.2.0
-xlwt==0.7.5

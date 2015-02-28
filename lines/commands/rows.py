@@ -1,9 +1,8 @@
 from __future__ import absolute_import
 
-import copy
 import os
 from ringing import Row, RowBlock
-import xlwt
+import xlsxwriter
 
 from lines.commands import BaseCommand
 
@@ -21,33 +20,20 @@ STYLE_METHOD_NAME = 8
 STYLE_CALL = 9
 
 CELL_STYLES = range(10)
-CELL_STYLES[STYLE_NORMAL] = xlwt.XFStyle()
-CELL_STYLES[STYLE_NORMAL].font.name = 'Calibri'
-CELL_STYLES[STYLE_NORMAL].font.height = 220
-CELL_STYLES[STYLE_NORMAL].alignment.horz = xlwt.Alignment.HORZ_CENTER
-
-CELL_STYLES[STYLE_RUN] = copy.deepcopy(CELL_STYLES[STYLE_NORMAL])
-CELL_STYLES[STYLE_RUN].borders.top = xlwt.Borders.THIN
-CELL_STYLES[STYLE_RUN].borders.bottom = xlwt.Borders.THIN
-CELL_STYLES[STYLE_RUN].pattern.pattern = xlwt.Pattern.SOLID_PATTERN
-CELL_STYLES[STYLE_RUN].pattern.pattern_fore_colour = 5  # Yellow
-
-CELL_STYLES[STYLE_RUN_START] = copy.deepcopy(CELL_STYLES[STYLE_RUN])
-CELL_STYLES[STYLE_RUN_START].borders.left = xlwt.Borders.THIN
-
-CELL_STYLES[STYLE_RUN_END] = copy.deepcopy(CELL_STYLES[STYLE_RUN])
-CELL_STYLES[STYLE_RUN_END].borders.right = xlwt.Borders.THIN
+CELL_STYLES[STYLE_NORMAL] = {'align': 'center'}
+CELL_STYLES[STYLE_RUN] = CELL_STYLES[STYLE_NORMAL].copy()
+CELL_STYLES[STYLE_RUN].update({'top': 1, 'bottom': 1, 'bg_color': 'yellow'})
+CELL_STYLES[STYLE_RUN_START] = CELL_STYLES[STYLE_RUN].copy()
+CELL_STYLES[STYLE_RUN_START].update({'left': 1})
+CELL_STYLES[STYLE_RUN_END] = CELL_STYLES[STYLE_RUN].copy()
+CELL_STYLES[STYLE_RUN_END].update({'right': 1})
 
 for i in range(4):
-    CELL_STYLES[i + 4] = copy.deepcopy(CELL_STYLES[i])
-    CELL_STYLES[i + 4].borders.bottom = xlwt.Borders.MEDIUM
+    CELL_STYLES[i + 4] = CELL_STYLES[i].copy()
+    CELL_STYLES[i + 4].update({'bottom': 2})
 
-CELL_STYLES[STYLE_METHOD_NAME] = xlwt.XFStyle()
-CELL_STYLES[STYLE_METHOD_NAME].font.name = 'Calibri'
-CELL_STYLES[STYLE_METHOD_NAME].font.height = 220
-CELL_STYLES[STYLE_METHOD_NAME].font.bold = True
-
-CELL_STYLES[STYLE_CALL] = copy.deepcopy(CELL_STYLES[STYLE_METHOD_NAME])
+CELL_STYLES[STYLE_METHOD_NAME] = {'bold': True}
+CELL_STYLES[STYLE_CALL] = CELL_STYLES[STYLE_METHOD_NAME].copy()
 
 
 class Command(BaseCommand):
@@ -55,30 +41,29 @@ class Command(BaseCommand):
     lead_head = None
 
     def execute(self):
-        workbook = xlwt.Workbook()
+        workbook = xlsxwriter.Workbook(
+            os.path.join(self.get_output_directory(), 'rows.xlsx'),
+            {'strings_to_numbers': True}
+        )
+        self.styles = [workbook.add_format(style) for style in CELL_STYLES]
+        self.create_worksheet(workbook, 'Portrait')
+        self.create_worksheet(workbook, 'Landscape', landscape=True)
+        workbook.close()
 
-        portrait_worksheet = self.print_worksheet(workbook, 'Portrait')
-        landscape_worksheet = self.print_worksheet(workbook, 'Landscape')
-        landscape_worksheet.portrait = 0
+    def create_worksheet(self, workbook, name, landscape=False):
+        worksheet = workbook.add_worksheet(name)
 
-        workbook.save(os.path.join(self.get_output_directory(), 'rows.xls'))
-
-    def print_worksheet(self, workbook, name):
-        worksheet = workbook.add_sheet(name, cell_overwrite_ok=True)
-
-        worksheet.top_margin = 0.4
-        worksheet.right_margin = 0.4
-        worksheet.bottom_margin = 0.4
-        worksheet.left_margin = 0.4
-        worksheet.header_margin = 0
-        worksheet.footer_margin = 0
-        worksheet.header_str = ''
-        worksheet.footer_str = ''
-        worksheet.print_centered_horz = 0
+        if landscape:
+            worksheet.set_landscape()
+        worksheet.set_paper(9)  # A4
+        worksheet.set_margins(0.4, 0.4, 0.4, 0.4)  # 1cm all round
+        worksheet.set_header('', {'margin': 0})
+        worksheet.set_footer('', {'margin': 0})
+        # worksheet.print_area(0, 0, last_row, last_col)  TODO
+        worksheet.fit_to_pages(1, 1)
 
         # Set up column widths
-        for column_index in range(self.composition.configs.bells + 1):
-            worksheet.col(column_index).width = 450  # 12px
+        worksheet.set_column(0, self.composition.configs.bells, 1)
 
         self.row_index = 0
         self.lead_head = Row(self.composition.configs.bells)
@@ -94,14 +79,14 @@ class Command(BaseCommand):
                     self.row_index,
                     self.composition.configs.bells + 1,
                     lead.method_name,
-                    CELL_STYLES[STYLE_METHOD_NAME],
+                    self.styles[STYLE_METHOD_NAME],
                 )
 
                 worksheet.write(
                     self.row_index + lead.method_object.size - 1,
                     self.composition.configs.bells + 1,
                     lead.call_symbol,
-                    CELL_STYLES[STYLE_CALL],
+                    self.styles[STYLE_CALL],
                 )
 
             if index == 0 or index == lead.method_object.size:  # Lead head
@@ -172,7 +157,7 @@ class Command(BaseCommand):
                 self.row_index,
                 index,
                 bell,
-                CELL_STYLES[styles[index]],
+                self.styles[styles[index]],
             )
 
         self.row_index += 1
