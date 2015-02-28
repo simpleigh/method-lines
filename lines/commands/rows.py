@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
+from math import sqrt
 import os
+
 from ringing import Row
 import xlsxwriter
 
@@ -34,8 +36,14 @@ CELL_STYLES[STYLE_METHOD_NAME] = {'bold': True}
 CELL_STYLES[STYLE_CALL] = CELL_STYLES[STYLE_METHOD_NAME].copy()
 
 
+DEFAULT_ROW_HEIGHT = 20
+DEFAULT_COLUMN_WIDTH = 64
+BELL_COLUMN_WIDTH = 12
+
+
 class Command(BaseCommand):
     row_index = 0
+    col_index = 0
     lead_head = None
 
     def execute(self):
@@ -49,6 +57,9 @@ class Command(BaseCommand):
         workbook.close()
 
     def create_worksheet(self, workbook, name, landscape=False):
+        """
+        Creates a worksheet and fills it with rows.
+        """
         worksheet = workbook.add_worksheet(name)
 
         if landscape:
@@ -57,32 +68,85 @@ class Command(BaseCommand):
         worksheet.set_margins(0.4, 0.4, 0.4, 0.4)  # 1cm all round
         worksheet.set_header('', {'margin': 0})
         worksheet.set_footer('', {'margin': 0})
-        # worksheet.print_area(0, 0, last_row, last_col)  TODO
         worksheet.fit_to_pages(1, 1)
 
-        # Set up column widths
-        worksheet.set_column(0, self.composition.configs.bells, 1)
+        # Start with the smallest possible rows (i.e. length of longest method)
+        # and increase it until we pass the required aspect ratio
+        rows = max([
+            lead.method_object.length for lead in self.composition.leads
+        ])
+        desired_aspect_ratio = 1 / sqrt(2) if landscape else sqrt(2)
+        while self.calculate_aspect_ratio(rows) < desired_aspect_ratio:
+            rows += 2
 
+        # Stamp leads all over the worksheet
         self.row_index = 0
+        self.col_index = 0
         self.lead_head = Row(self.composition.configs.bells)
+        col_index_delta = self.composition.configs.bells + 3
         for lead in self.composition.leads:
+            if self.row_index + lead.method_object.length >= rows:
+                self.row_index = 0
+                self.col_index += col_index_delta
             self.print_lead(lead, worksheet)
 
-        return worksheet
+        # Set print area and column widths
+        worksheet.print_area(
+            0, 0,
+            rows, self.calculate_columns(rows) * col_index_delta - 2
+        )
+        for i in range(self.calculate_columns(rows)):
+            worksheet.set_column(
+                i * col_index_delta,
+                (i + 1) * col_index_delta - 3,
+                1
+            )
+
+    def calculate_columns(self, rows):
+        """
+        Calculate columns needed to print the composition for a given height.
+        """
+        columns = 1
+        row_index = 0
+
+        for lead in self.composition.leads:
+            row_index += lead.method_object.length
+            if row_index >= rows:
+                columns += 1
+                row_index = lead.method_object.length
+
+        return columns
+
+    def calculate_aspect_ratio(self, rows):
+        """
+        Calculates the aspect ratio that will result for a given height.
+        """
+        columns = self.calculate_columns(rows)
+
+        height = rows * DEFAULT_ROW_HEIGHT
+        width = columns * (
+            (self.composition.configs.bells + 1) * BELL_COLUMN_WIDTH
+            + 2 * DEFAULT_COLUMN_WIDTH  # Call and padding
+        ) - DEFAULT_COLUMN_WIDTH  # No padding needed at extreme right
+
+        return float(height) / width
 
     def print_lead(self, lead, worksheet):
+        """
+        Stamps a lead on the worksheet.
+        """
         for index, row in enumerate(lead.rows):
             if index == 0:  # Method name and call
                 worksheet.write(
                     self.row_index,
-                    self.composition.configs.bells + 1,
+                    self.col_index + self.composition.configs.bells + 1,
                     lead.method_name,
                     self.styles[STYLE_METHOD_NAME],
                 )
 
                 worksheet.write(
                     self.row_index + lead.method_object.size - 1,
-                    self.composition.configs.bells + 1,
+                    self.col_index + self.composition.configs.bells + 1,
                     lead.call_symbol,
                     self.styles[STYLE_CALL],
                 )
@@ -96,6 +160,9 @@ class Command(BaseCommand):
         self.lead_head = lead.lead_head
 
     def print_row(self, row, worksheet, lead_head=False):
+        """
+        Prints a single row, highlighting any rollups.
+        """
         styles = [STYLE_NORMAL for _ in range(self.composition.configs.bells)]
 
         previous_bell = row[0]
@@ -153,7 +220,7 @@ class Command(BaseCommand):
         for index, bell in enumerate(str(row)):
             worksheet.write(
                 self.row_index,
-                index,
+                self.col_index + index,
                 bell,
                 self.styles[styles[index]],
             )
