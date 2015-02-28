@@ -128,3 +128,22 @@ class Composition(object):
         """
         length_of_part = sum(map(lambda l: l.method_object.size, self.leads))
         return length_of_part * self.parts
+
+    @property
+    def method_balance(self):
+        """
+        Breakdown of methods in the composition.
+        """
+        methods = {}
+        for lead in self.leads:
+            method_name = lead.method_name
+
+            if method_name not in methods:
+                methods[method_name] = 0
+
+            methods[method_name] += lead.method_object.size
+
+        for method_name in methods:
+            methods[method_name] *= self.parts
+
+        return methods

@@ -33,7 +33,24 @@ class Command(BaseCommand):
             ))
 
             # Number of methods
-            output('({}m)\n'.format(len(self.composition.configs.methods)))
+            methods = self.composition.method_balance
+            methods = [
+                {'name': method[0], 'length': method[1]}
+                for method in self.composition.method_balance.items()
+            ]
+            methods.sort(
+                cmp=lambda x, y:
+                    # length DESC, name ASC
+                    cmp(y['length'], x['length']) or cmp(x['name'], y['name'])
+            )
+            methods = [
+                '{0[length]} {0[name]}'.format(method) for method in methods
+            ]
+            methods = '; '.join(methods)
+            output('({number}m: {methods})\n'.format(
+                number=len(self.composition.configs.methods),
+                methods=methods,
+            ))
 
             output('\n')
 
