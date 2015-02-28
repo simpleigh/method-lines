@@ -57,22 +57,13 @@ class Command(BaseCommand):
     def execute(self):
         workbook = xlwt.Workbook()
 
-        portrait_worksheet = self.create_worksheet(workbook, 'Portrait')
-        self.row_index = 0
-        self.lead_head = Row(self.composition.configs.bells)
-        for lead in self.composition.leads:
-            self.print_lead(lead, portrait_worksheet)
-
-        landscape_worksheet = self.create_worksheet(workbook, 'Landscape')
+        portrait_worksheet = self.print_worksheet(workbook, 'Portrait')
+        landscape_worksheet = self.print_worksheet(workbook, 'Landscape')
         landscape_worksheet.portrait = 0
-        self.row_index = 0
-        self.lead_head = Row(self.composition.configs.bells)
-        for lead in self.composition.leads:
-            self.print_lead(lead, landscape_worksheet)
 
         workbook.save(os.path.join(self.get_output_directory(), 'rows.xls'))
 
-    def create_worksheet(self, workbook, name):
+    def print_worksheet(self, workbook, name):
         worksheet = workbook.add_sheet(name, cell_overwrite_ok=True)
 
         worksheet.top_margin = 0.4
@@ -88,6 +79,11 @@ class Command(BaseCommand):
         # Set up column widths
         for column_index in range(self.composition.configs.bells + 1):
             worksheet.col(column_index).width = 450  # 12px
+
+        self.row_index = 0
+        self.lead_head = Row(self.composition.configs.bells)
+        for lead in self.composition.leads:
+            self.print_lead(lead, worksheet)
 
         return worksheet
 
@@ -156,13 +152,15 @@ class Command(BaseCommand):
 
             if in_run:
                 bells_in_run += 1
-                if i == self.composition.configs.bells - 1 and bells_in_run >= 4:
-                    paint_run(start_of_run, i)
             else:
                 if bells_in_run >= 4:
                     paint_run(start_of_run, i - 1)
                 bells_in_run = 1
                 start_of_run = i
+
+            # Cope with the end of the row
+            if i == self.composition.configs.bells - 1 and bells_in_run >= 4:
+                paint_run(start_of_run, i)
 
             previous_bell = current_bell
 
