@@ -3,6 +3,7 @@ from __future__ import absolute_import, print_function
 import os
 
 from ringing import Row, Method
+import six
 
 from lines.commands import BaseCommand
 
@@ -13,7 +14,7 @@ class Command(BaseCommand):
         if self.composition.configs.has_config('calls'):
             longest_call = max(map(
                 lambda s: len(s),
-                self.composition.configs.calls.keys()
+                six.iterkeys(self.composition.configs.calls)
             ))
             format_string = '  {0.method_name}\n{0.call_symbol:' + \
                 str(longest_call) + '} {0.lead_head}'
@@ -35,8 +36,9 @@ class Command(BaseCommand):
             # Number of methods
             methods = self.composition.method_balance
             methods = [
-                {'name': method[0], 'length': method[1]}
-                for method in self.composition.method_balance.items()
+                {'name': name, 'length': length}
+                for name, length
+                in six.iteritems(self.composition.method_balance)
             ]
             methods.sort(
                 cmp=lambda x, y:

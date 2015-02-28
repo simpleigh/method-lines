@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+import six
+
 from lines.commands import BaseCommand
 from lines.psline import PsLineDriver
 
@@ -12,7 +14,7 @@ class Command(BaseCommand):
         driver.suppress_rules = True
         driver.total_leads = 1
 
-        for method in self.composition.configs.methods.itervalues():
+        for method in six.itervalues(self.composition.configs.methods):
             for pair in range(0, self.composition.configs.bells, 2):
                 driver.filename_suffix = ' - {}'.format(pair)
                 lines = []

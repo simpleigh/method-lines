@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import os
 
 from ringing import Change
+import six
 
 from lines.commands import BaseCommand
 from lines.psline import PsLineDriver
@@ -14,7 +15,7 @@ class Command(BaseCommand):
         driver = PsLineDriver()
         driver.file_path = self.get_output_directory()
 
-        for method in self.composition.configs.methods.itervalues():
+        for method in six.itervalues(self.composition.configs.methods):
             lines = [{'bell': 0, 'weight': 1}]
 
             lh_change = method[method.length - 1]
