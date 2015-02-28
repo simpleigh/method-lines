@@ -6,6 +6,7 @@ import shutil
 
 from lines.commands import get_commands, get_command_object, BaseCommand
 
+
 class Command(BaseCommand):
 
     requires_output_directory = False

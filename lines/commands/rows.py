@@ -2,7 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 
 import os
-from ringing import Row, RowBlock
+from ringing import Row
 import xlsxwriter
 
 from lines.commands import BaseCommand

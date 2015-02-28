@@ -6,6 +6,7 @@ import six
 from lines.commands import BaseCommand
 from lines.psline import PsLineDriver
 
+
 class Command(BaseCommand):
 
     def execute(self):

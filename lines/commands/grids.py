@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
-import os
-
 import six
 
 from lines.commands import BaseCommand
 from lines.psline import PsLineDriver
+
 
 class Command(BaseCommand):
 

@@ -20,8 +20,8 @@ class Config(BaseConfig):
                 call, place_notation = row
                 try:
                     calls[call] = Change(self.configs.bells, place_notation)
-                except ValueError as e:
-                    print('Could not parse call {}'.format(name))
+                except ValueError:
+                    print('Could not parse call {}'.format(call))
                     raise
 
         return calls

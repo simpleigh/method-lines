@@ -24,7 +24,7 @@ def get_last_module_part(module_name):
     """
     dot_location = module_name.find('.')
     while dot_location != -1:
-        module_name = module_name[dot_location + 1 : ]
+        module_name = module_name[dot_location + 1:]
         dot_location = module_name.find('.')
 
     return module_name

@@ -24,7 +24,7 @@ class Config(BaseConfig):
                         self.configs.bells,
                         base_name
                     )
-                except ValueError as e:
+                except ValueError:
                     print('Could not parse method {}'.format(base_name))
                     raise
 

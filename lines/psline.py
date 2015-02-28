@@ -34,7 +34,7 @@ class PsLineDriver(object):
         """
         try:
             execute('psline', ['--version'])
-        except OSError as exc:
+        except OSError:
             print('Cannot execute psline: is it installed and in the path?')
             print()
             raise
