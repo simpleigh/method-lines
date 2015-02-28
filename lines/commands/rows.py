@@ -39,6 +39,7 @@ CELL_STYLES[STYLE_CALL] = CELL_STYLES[STYLE_METHOD_NAME].copy()
 DEFAULT_ROW_HEIGHT = 20
 DEFAULT_COLUMN_WIDTH = 64
 BELL_COLUMN_WIDTH = 12
+COLUMN_GUTTER_WIDTH = 19
 
 
 class Command(BaseCommand):
@@ -101,6 +102,11 @@ class Command(BaseCommand):
                 (i + 1) * col_index_delta - 3,
                 1
             )
+            worksheet.set_column(
+                (i + 1) * col_index_delta - 1,
+                (i + 1) * col_index_delta - 1,
+                2
+            )
 
     def calculate_columns(self, rows):
         """
@@ -126,8 +132,9 @@ class Command(BaseCommand):
         height = rows * DEFAULT_ROW_HEIGHT
         width = columns * (
             (self.composition.configs.bells + 1) * BELL_COLUMN_WIDTH
-            + 2 * DEFAULT_COLUMN_WIDTH  # Call and padding
-        ) - DEFAULT_COLUMN_WIDTH  # No padding needed at extreme right
+            + DEFAULT_COLUMN_WIDTH  # Call
+            + COLUMN_GUTTER_WIDTH
+        ) - COLUMN_GUTTER_WIDTH  # No padding needed at extreme right
 
         return float(height) / width
 
