@@ -20,7 +20,7 @@ STYLE_RUN_END_LH = 7
 STYLE_METHOD_NAME = 8
 STYLE_CALL = 9
 
-CELL_STYLES = range(10)
+CELL_STYLES = [None] * 10
 CELL_STYLES[STYLE_NORMAL] = {'align': 'center'}
 CELL_STYLES[STYLE_RUN] = CELL_STYLES[STYLE_NORMAL].copy()
 CELL_STYLES[STYLE_RUN].update({'top': 1, 'bottom': 1, 'bg_color': 'yellow'})
@@ -151,7 +151,7 @@ class Command(BaseCommand):
             previous_bell = current_bell
 
         if lead_head:
-            styles = map(lambda style: style + 4, styles)
+            styles = list(map(lambda style: style + 4, styles))
 
         for index, bell in enumerate(str(row)):
             worksheet.write(

@@ -41,11 +41,8 @@ class Command(BaseCommand):
                 for name, length
                 in six.iteritems(self.composition.method_balance)
             ]
-            methods.sort(
-                cmp=lambda x, y:
-                    # length DESC, name ASC
-                    cmp(y['length'], x['length']) or cmp(x['name'], y['name'])
-            )
+            # length DESC, name ASC
+            methods.sort(key=lambda method:(-method['length'], method['name']))
             methods = [
                 '{0[length]} {0[name]}'.format(method) for method in methods
             ]
