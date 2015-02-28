@@ -35,23 +35,31 @@ class Command(BaseCommand):
             ))
 
             # Number of methods
-            methods = self.composition.method_balance
-            methods = [
-                {'name': name, 'length': length}
-                for name, length
-                in six.iteritems(self.composition.method_balance)
-            ]
-            # length DESC, name ASC
-            methods.sort(key=lambda method:(-method['length'], method['name']))
-            methods = [
-                '{0[length]} {0[name]}'.format(method) for method in methods
-            ]
-            methods = '; '.join(methods)
-            output('({number}m: {methods})\n'.format(
-                number=len(self.composition.configs.methods),
-                methods=methods,
-            ))
+            methods = {}
+            for name, length in six.iteritems(self.composition.method_balance):
+                # Assemble dict mapping lengths to lists of methods
+                # e.g. {176: ['Slinky'], 880: ['Maypole']}
+                if length not in methods:
+                    methods[length] = []
+                methods[length].append(name)
 
+            for length in six.iterkeys(methods):
+                # Replace each list of methods with string for output
+                # e.g. {176: '176 Slinky', 880: '880 Maypole'}
+                methods[length] = ', '.join(sorted(methods[length]))
+                methods[length] = '{} {}'.format(length, methods[length])
+
+            methods = [
+                # Sort entries in reverse order of length
+                # e.g. {880: '880 Maypole', 176: '176 Slinky'}
+                methods[length] for length
+                in reversed(list(six.iterkeys(methods)))
+            ]
+
+            output('({number}m: {methods})\n'.format(
+                number=len(self.composition.method_balance),
+                methods='; '.join(methods),
+            ))
             output('\n')
 
             if self.composition.configs.has_config('calls'):
