@@ -64,5 +64,4 @@ class Command(BaseCommand):
 
             output('\n')
             output('\n')
-            output('{} part.'.format(self.composition.parts))
-            output('\n')
+            output('{0.parts} part. {0.com} com.\n'.format(self.composition))

@@ -35,6 +35,7 @@ class Composition(object):
 
     _leads = None
     _is_cyclic = None
+    _com = None
 
     def __init__(self, path):
         if not os.path.exists(path):
@@ -147,3 +148,28 @@ class Composition(object):
             methods[method_name] *= self.parts
 
         return methods
+
+    @property
+    def com(self):
+        """
+        Number of changes of method.
+        """
+        if self._com is None:
+            self._com = 0
+            current_method = self.leads[0].method_name
+            for lead in self.leads:
+                if lead.method_name != current_method:
+                    self._com += 1
+                    current_method = lead.method_name
+
+            # Check for change of method between parts
+            if self.leads[0].method_name != self.leads[-1].method_name:
+                self._com += 1
+
+            self._com *= self.parts
+
+            # Subtract change of methods between end and start of composition
+            if self.leads[0].method_name != self.leads[-1].method_name:
+                self._com -= 1
+
+        return self._com
