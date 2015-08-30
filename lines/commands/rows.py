@@ -131,9 +131,9 @@ class Command(BaseCommand):
 
         height = rows * DEFAULT_ROW_HEIGHT
         width = columns * (
-            (self.composition.configs.bells + 1) * BELL_COLUMN_WIDTH
-            + DEFAULT_COLUMN_WIDTH  # Call
-            + COLUMN_GUTTER_WIDTH
+            (self.composition.configs.bells + 1) * BELL_COLUMN_WIDTH +
+            DEFAULT_COLUMN_WIDTH +  # Call
+            COLUMN_GUTTER_WIDTH
         ) - COLUMN_GUTTER_WIDTH  # No padding needed at extreme right
 
         return float(height) / width
