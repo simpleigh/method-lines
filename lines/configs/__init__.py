@@ -18,12 +18,12 @@ class ConfigStore(object):
         self.path = path
 
         # Set up a dictionary with possible config names as keys
-        self._configs = {
-            module: None
+        self._configs = dict([
+            [module, None]
             for module
             in find_modules(os.path.dirname(__file__))
             if os.path.isfile(os.path.join(path, module + '.txt'))
-        }
+        ])
 
     def __getattr__(self, name):
         if name not in self._configs:
