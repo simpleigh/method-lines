@@ -48,7 +48,7 @@ class Command(BaseCommand):
                 # Replace each list of methods with string for output
                 # e.g. {176: '176 Slinky', 880: '880 Maypole'}
                 methods[length] = ', '.join(sorted(methods[length]))
-                methods[length] = '{} {}'.format(length, methods[length])
+                methods[length] = '{0} {1}'.format(length, methods[length])
 
             methods = [
                 # Sort entries in reverse order of length

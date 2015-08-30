@@ -56,11 +56,11 @@ class PsLineDriver(object):
             )
         )
 
-        arguments.append('--title={}'.format(method.full_name()))
+        arguments.append('--title={0}'.format(method.full_name()))
 
         if self.place_bells:
             arguments.append(
-                '--place-bells={}'.format(
+                '--place-bells={0}'.format(
                     bell_number_to_char(self.place_bells)
                 )
             )
@@ -69,7 +69,7 @@ class PsLineDriver(object):
             arguments.append('--rule')
 
         if self.total_leads:
-            arguments.append('--total-leads={}'.format(self.total_leads))
+            arguments.append('--total-leads={0}'.format(self.total_leads))
 
         for line in lines:
             arguments.append(self.line_arg_from_line_dict(line))

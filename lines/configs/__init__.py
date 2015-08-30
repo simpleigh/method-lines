@@ -27,10 +27,10 @@ class ConfigStore(object):
 
     def __getattr__(self, name):
         if name not in self._configs:
-            raise RuntimeError('Cannot find "{}" configuration'.format(name))
+            raise RuntimeError('Cannot find "{0}" configuration'.format(name))
 
         if self._configs[name] is None:
-            module = import_module('lines.configs.{}'.format(name))
+            module = import_module('lines.configs.{0}'.format(name))
             self._configs[name] = module.Config(self)
 
         return self._configs[name].data

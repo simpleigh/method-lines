@@ -17,7 +17,7 @@ class Command(BaseCommand):
 
         for method in six.itervalues(self.composition.configs.methods):
             for bell in range(self.composition.configs.bells):
-                driver.filename_suffix = ' - {}'.format(bell)
+                driver.filename_suffix = ' - {0}'.format(bell)
                 driver.place_bells = bell
                 lines = [{'bell': 0, 'weight': 1}, {'bell': bell}]
                 driver.create_line(method, lines)

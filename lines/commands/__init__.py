@@ -20,7 +20,7 @@ def get_command_object(composition, command_name):
     """
     Returns the Command object of the named command.
     """
-    module = import_module('lines.commands.{}'.format(command_name))
+    module = import_module('lines.commands.{0}'.format(command_name))
     return module.Command(composition)
 
 

@@ -20,7 +20,7 @@ class Config(BaseConfig):
                 if line not in self.configs.methods:
                     if line not in self.configs.calls:
                         raise RuntimeError(
-                            'Cannot find method or call "{}"'.format(line)
+                            'Cannot find method or call "{0}"'.format(line)
                         )
 
                 composition.append(line)

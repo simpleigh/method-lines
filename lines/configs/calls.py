@@ -21,7 +21,7 @@ class Config(BaseConfig):
                 try:
                     calls[call] = Change(self.configs.bells, place_notation)
                 except ValueError:
-                    print('Could not parse call {}'.format(call))
+                    print('Could not parse call {0}'.format(call))
                     raise
 
         return calls

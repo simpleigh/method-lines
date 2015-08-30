@@ -25,7 +25,7 @@ class Config(BaseConfig):
                         base_name
                     )
                 except ValueError:
-                    print('Could not parse method {}'.format(base_name))
+                    print('Could not parse method {0}'.format(base_name))
                     raise
 
         return methods

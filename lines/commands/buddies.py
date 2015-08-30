@@ -18,7 +18,7 @@ class Command(BaseCommand):
 
         for method in six.itervalues(self.composition.configs.methods):
             for pair in range(0, self.composition.configs.bells, 2):
-                driver.filename_suffix = ' - {}'.format(pair)
+                driver.filename_suffix = ' - {0}'.format(pair)
                 lines = []
                 for bell in range(self.composition.configs.bells):
                     if pair <= bell <= pair + 1:
