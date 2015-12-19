@@ -36,10 +36,12 @@ CELL_STYLES[STYLE_METHOD_NAME] = {'bold': True}
 CELL_STYLES[STYLE_CALL] = CELL_STYLES[STYLE_METHOD_NAME].copy()
 
 
-DEFAULT_ROW_HEIGHT = 20
-DEFAULT_COLUMN_WIDTH = 64
-BELL_COLUMN_WIDTH = 12
-COLUMN_GUTTER_WIDTH = 19
+DEFAULT_ROW_HEIGHT_PX = 20
+DEFAULT_COLUMN_WIDTH_PX = 64
+BELL_COLUMN_WIDTH = 1.00
+BELL_COLUMN_WIDTH_PX = 12
+GUTTER_COLUMN_WIDTH = 2.00
+GUTTER_COLUMN_WIDTH_PX = 19
 
 
 class Command(BaseCommand):
@@ -100,12 +102,12 @@ class Command(BaseCommand):
             worksheet.set_column(
                 i * col_index_delta,
                 (i + 1) * col_index_delta - 3,
-                1
+                BELL_COLUMN_WIDTH
             )
             worksheet.set_column(
                 (i + 1) * col_index_delta - 1,
                 (i + 1) * col_index_delta - 1,
-                2
+                GUTTER_COLUMN_WIDTH
             )
 
     def calculate_columns(self, rows):
@@ -129,12 +131,13 @@ class Command(BaseCommand):
         """
         columns = self.calculate_columns(rows)
 
-        height = rows * DEFAULT_ROW_HEIGHT
+        height = rows * DEFAULT_ROW_HEIGHT_PX
         width = columns * (
-            (self.composition.configs.bells + 1) * BELL_COLUMN_WIDTH +
-            DEFAULT_COLUMN_WIDTH +  # Call
-            COLUMN_GUTTER_WIDTH
-        ) - COLUMN_GUTTER_WIDTH  # No padding needed at extreme right
+            self.composition.configs.bells * BELL_COLUMN_WIDTH_PX +  # Bells
+            BELL_COLUMN_WIDTH_PX +  # Space before call
+            DEFAULT_COLUMN_WIDTH_PX +  # Call
+            GUTTER_COLUMN_WIDTH_PX  # Gutter
+        ) - GUTTER_COLUMN_WIDTH_PX  # No padding needed at extreme right
 
         return float(height) / width
 
