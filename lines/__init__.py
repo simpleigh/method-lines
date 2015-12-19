@@ -93,8 +93,9 @@ class Composition(object):
     def is_treble_fixed(self):
         """
         Whether the treble returns home at the part end.
+        (Returns False if it's a single-part composition).
         """
-        return self.part_end[0] == 0
+        return self.parts != 1 and self.part_end[0] == 0
 
     @property
     def is_cyclic(self):
