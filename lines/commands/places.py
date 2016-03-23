@@ -5,6 +5,7 @@ import six
 
 from lines.commands import BaseCommand
 from lines.psline import PsLineDriver
+from ringing import Bell
 
 
 class Command(BaseCommand):
@@ -17,12 +18,19 @@ class Command(BaseCommand):
 
         for method in six.itervalues(self.composition.configs.methods):
 
-            for bell in range(self.composition.configs.bells):
-                driver.place_bells = bell
-                lines = [{'bell': 0, 'weight': 1}, {'bell': bell}]
+            for place_bell in range(self.composition.configs.bells):
+                driver.place_bells = place_bell
+
+                lines = []
+                if method.hunt_bells() <= 2:
+                    for bell in range(self.composition.configs.bells):
+                        if method.lead_head()[bell] == Bell(bell):
+                            lines.append({'bell': bell, 'weight': 1})
+                lines.append({'bell': place_bell, 'weight': 4})
+
                 driver.create_line(
                     method,
                     lines,
-                    file='{} {}'.format(method.name, bell + 1),
-                    title='{} {}'.format(method.name, bell + 1),
+                    file='{} {}'.format(method.name, place_bell + 1),
+                    title='{} {}'.format(method.name, place_bell + 1),
                 )

@@ -14,7 +14,6 @@ class Command(BaseCommand):
 
         driver = PsLineDriver()
         driver.file_path = self.get_output_directory()
-        driver.suppress_rules = True
         driver.total_leads = 1
 
         for method in six.itervalues(self.composition.configs.methods):
@@ -23,7 +22,7 @@ class Command(BaseCommand):
                 lines = []
                 for bell in range(self.composition.configs.bells):
                     if pair <= bell <= pair + 1:
-                        weight = 2
+                        weight = 4
                     else:
                         weight = 1
                     lines.append({'bell': bell, 'weight': weight})
