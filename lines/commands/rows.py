@@ -34,6 +34,7 @@ for i in range(4):
 
 CELL_STYLES[STYLE_METHOD_NAME] = {'bold': True}
 CELL_STYLES[STYLE_CALL] = CELL_STYLES[STYLE_METHOD_NAME].copy()
+CELL_STYLES[STYLE_CALL].update({'align': 'left'})
 
 
 DEFAULT_ROW_HEIGHT_PX = 20
