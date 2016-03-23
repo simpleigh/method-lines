@@ -175,7 +175,7 @@ class Command(BaseCommand):
         """
         styles = [STYLE_NORMAL for _ in range(self.composition.configs.bells)]
 
-        previous_bell = row[0]
+        previous_bell = int(row[0])
         bells_in_run = 1
         start_of_run = 0
 
@@ -186,7 +186,7 @@ class Command(BaseCommand):
 
         # Loop over bells in the row to determine if we're in a run
         for i in range(1, self.composition.configs.bells):
-            current_bell = row[i]
+            current_bell = int(row[i])
             bell_difference = abs(current_bell - previous_bell)
             in_run = False
 

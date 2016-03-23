@@ -25,7 +25,7 @@ class Lead(object):
         if call_object is not None:
             places[-1] = call_object
 
-        self.rows = RowBlock(*places, starting_row=starting_lead_head)
+        self.rows = RowBlock(places, starting_row=starting_lead_head)
         self.lead_head = self.rows[self.rows.size - 1]
 
 
