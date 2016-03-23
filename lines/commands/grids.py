@@ -13,7 +13,6 @@ class Command(BaseCommand):
 
         driver = PsLineDriver()
         driver.file_path = self.get_output_directory()
-        driver.filename_suffix = ' - Grid'
         driver.suppress_rules = True
         driver.total_leads = 1
 
@@ -27,4 +26,9 @@ class Command(BaseCommand):
                     weight = 2
                 lines.append({'bell': bell, 'weight': weight})
 
-            driver.create_line(method, lines)
+            driver.create_line(
+                method,
+                lines,
+                file='{} - Grid'.format(method.name),
+                title='{} - Grid'.format(method.name),
+            )

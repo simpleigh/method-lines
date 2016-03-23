@@ -21,7 +21,6 @@ class PsLineDriver(object):
     """
 
     file_path = '.'
-    filename_suffix = ''
     place_bells = None
     suppress_rules = False
     total_leads = None
@@ -39,7 +38,7 @@ class PsLineDriver(object):
             print()
             raise
 
-    def create_line(self, method, lines=[]):
+    def create_line(self, method, lines=[], file=None, title=None):
         """
         Invokes psline to draw a method line.
         """
@@ -49,14 +48,15 @@ class PsLineDriver(object):
             '{bells}:{pn}'.format(bells=method.bells, pn=method.format())
         )
 
+        if file is None:
+            file = method.full_name()
         arguments.append(
-            '--output-file={file}{suffix}.pdf'.format(
-                file=path.join(self.file_path, method.full_name()),
-                suffix=self.filename_suffix,
-            )
+            '--output-file={0}.pdf'.format(path.join(self.file_path, file)),
         )
 
-        arguments.append('--title={0}'.format(method.full_name()))
+        if title is None:
+            title = method.full_name()
+        arguments.append('--title={0}'.format(title))
 
         if self.place_bells:
             arguments.append(
