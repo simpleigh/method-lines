@@ -31,6 +31,6 @@ class Command(BaseCommand):
                 driver.create_line(
                     method,
                     lines,
-                    file='{} {}'.format(method.name, pair_str),
-                    title='{} {}'.format(method.name, pair_str),
+                    file='{0} {1}'.format(method.name, pair_str),
+                    title='{0} {1}'.format(method.name, pair_str),
                 )
