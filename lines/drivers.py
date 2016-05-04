@@ -15,7 +15,7 @@ def bell_number_to_char(num):
     return str(Row(num + 1))[num]  # Hack this out of a Row string
 
 
-class PsLineDriver(object):
+class PsLine(object):
     """
     Wrapper for the psline command-line utility.
     """

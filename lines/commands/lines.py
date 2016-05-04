@@ -4,14 +4,14 @@ from __future__ import absolute_import, unicode_literals
 import six
 
 from lines.commands import BaseCommand
-from lines.psline import PsLineDriver
+from lines.drivers import PsLine
 
 
 class Command(BaseCommand):
 
     def execute(self):
 
-        driver = PsLineDriver()
+        driver = PsLine()
         driver.file_path = self.get_output_directory()
 
         for method in six.itervalues(self.composition.configs.methods):
