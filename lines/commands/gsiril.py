@@ -6,6 +6,7 @@ import os
 import six
 
 from lines.commands import BaseCommand
+from lines.drivers import GSiril
 
 
 class Command(BaseCommand):
@@ -68,3 +69,6 @@ class Command(BaseCommand):
             output('prove {parts}('.format(parts=self.composition.parts))
             output(',\n'.join(notations))
             output(')')
+
+        driver = GSiril()
+        driver.prove(filename)

@@ -15,6 +15,30 @@ def bell_number_to_char(num):
     return str(Row(num + 1))[num]  # Hack this out of a Row string
 
 
+class GSiril(object):
+    """
+    Wrapper for the gsiril command-line utility.
+    """
+
+    def __init__(self):
+        """
+        Constructs the object and checks that gsiril is found in the path.
+        """
+        try:
+            execute('gsiril', ['--version'])
+        except OSError:
+            print('Cannot execute gsiril: is it installed and in the path?')
+            print()
+            raise
+
+    def prove(self, filename):
+        """
+        Invokes gsiril to prove a touch.
+        """
+        with open(filename, 'r') as file:
+            execute('gsiril', ['-q'], show_output=True, stdin=file)
+
+
 class PsLine(object):
     """
     Wrapper for the psline command-line utility.
