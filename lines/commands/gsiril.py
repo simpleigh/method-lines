@@ -68,15 +68,15 @@ class Command(BaseCommand):
             notations = []
             for lead in self.composition.leads:
                 if lead.call_object is not None:
-                    notations.append('m_{}_lead'.format(
-                        driver.encode(lead.method_name)
+                    notations.append('m_{name}_lead'.format(
+                        name=driver.encode(lead.method_name)
                     ))
-                    notations.append('c_{}'.format(
-                        driver.encode(lead.call_symbol)
+                    notations.append('c_{name}'.format(
+                        name=driver.encode(lead.call_symbol)
                     ))
                 else:
-                    notations.append('m_{}_plain'.format(
-                        driver.encode(lead.method_name)
+                    notations.append('m_{name}_plain'.format(
+                        name=driver.encode(lead.method_name)
                     ))
 
             output('prove {parts}('.format(parts=self.composition.parts))
