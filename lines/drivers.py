@@ -31,6 +31,21 @@ class GSiril(object):
             print()
             raise
 
+    def encode(self, name):
+        """
+        Encodes a name for use in gsiril input.
+        """
+        def encoder(char):
+            if char.isalnum() or char == '_':
+                return char
+
+            if char == ' ':
+                return ''
+
+            return 'u' + str(ord(char))
+
+        return ''.join(map(encoder, name))
+
     def prove(self, filename):
         """
         Invokes gsiril to prove a touch.
