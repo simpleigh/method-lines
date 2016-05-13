@@ -15,7 +15,6 @@ class Command(BaseCommand):
         'all_dots': True,
         'external_places': True,
         'cross_upper_x': True,
-        'symmetry': True,
         'asymmetric_plus': True,
     }
 
