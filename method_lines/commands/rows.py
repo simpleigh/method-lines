@@ -7,7 +7,7 @@ import os
 from ringing import Row
 import xlsxwriter
 
-from lines.commands import BaseCommand
+from method_lines.commands import BaseCommand
 
 
 # Define some cell styles

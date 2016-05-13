@@ -5,8 +5,8 @@ import os
 
 import six
 
-from lines.commands import BaseCommand
-from lines.drivers import GSiril
+from method_lines.commands import BaseCommand
+from method_lines.drivers import GSiril
 
 
 class Command(BaseCommand):

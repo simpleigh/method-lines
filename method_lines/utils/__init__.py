@@ -20,7 +20,7 @@ def get_last_module_part(module_name):
     """
     Finds the last part of a dotted module path.
 
-    e.g. "lines.commands.all" -> "all"
+    e.g. "method_lines.commands.all" -> "all"
     """
     dot_location = module_name.find('.')
     while dot_location != -1:

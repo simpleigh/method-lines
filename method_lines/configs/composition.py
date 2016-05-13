@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
-from lines.configs import BaseConfig
+from method_lines.configs import BaseConfig
 
 
 class Config(BaseConfig):

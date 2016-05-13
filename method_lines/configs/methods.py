@@ -6,7 +6,7 @@ import csv
 from ringing import Method
 import six
 
-from lines.configs import BaseConfig
+from method_lines.configs import BaseConfig
 
 
 class Config(BaseConfig):

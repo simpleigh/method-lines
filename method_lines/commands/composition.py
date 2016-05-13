@@ -6,7 +6,7 @@ import os
 from ringing import Row, Method
 import six
 
-from lines.commands import BaseCommand
+from method_lines.commands import BaseCommand
 
 
 class Command(BaseCommand):

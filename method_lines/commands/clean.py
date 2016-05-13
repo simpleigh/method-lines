@@ -4,7 +4,7 @@ from __future__ import absolute_import, unicode_literals
 import os
 import shutil
 
-from lines.commands import get_commands, get_command_object, BaseCommand
+from method_lines.commands import get_commands, get_command_object, BaseCommand
 
 
 class Command(BaseCommand):

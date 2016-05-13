@@ -5,7 +5,7 @@ from os import path
 
 from ringing import Row
 
-from lines.utils.shell import execute
+from method_lines.utils.shell import execute
 
 
 def bell_number_to_char(num):

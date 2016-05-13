@@ -5,7 +5,7 @@ import os
 
 from ringing import Row, RowBlock
 
-from lines.configs import ConfigStore
+from method_lines.configs import ConfigStore
 
 
 class Lead(object):

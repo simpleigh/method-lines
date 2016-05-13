@@ -4,7 +4,7 @@ from __future__ import absolute_import, unicode_literals
 from importlib import import_module
 import os
 
-from lines.utils import find_modules, get_last_module_part
+from method_lines.utils import find_modules, get_last_module_part
 
 
 class ConfigStore(object):
@@ -30,7 +30,7 @@ class ConfigStore(object):
             raise RuntimeError('Cannot find "{0}" configuration'.format(name))
 
         if self._configs[name] is None:
-            module = import_module('lines.configs.{0}'.format(name))
+            module = import_module('method_lines.configs.{0}'.format(name))
             self._configs[name] = module.Config(self)
 
         return self._configs[name].data

@@ -5,8 +5,8 @@ from importlib import import_module
 import os
 from sys import exit
 
-from lines import Composition
-from lines.utils import find_modules, get_last_module_part
+from method_lines import Composition
+from method_lines.utils import find_modules, get_last_module_part
 
 
 def get_commands():
@@ -20,7 +20,7 @@ def get_command_object(composition, command_name):
     """
     Returns the Command object of the named command.
     """
-    module = import_module('lines.commands.{0}'.format(command_name))
+    module = import_module('method_lines.commands.{0}'.format(command_name))
     return module.Command(composition)
 
 

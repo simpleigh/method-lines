@@ -3,8 +3,8 @@ from __future__ import absolute_import, unicode_literals
 
 import six
 
-from lines.commands import BaseCommand
-from lines.drivers import PsLine
+from method_lines.commands import BaseCommand
+from method_lines.drivers import PsLine
 from ringing import Bell
 
 
