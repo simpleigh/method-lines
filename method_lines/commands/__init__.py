@@ -3,7 +3,7 @@ from __future__ import absolute_import, unicode_literals
 
 from importlib import import_module
 import os
-from sys import exit
+import sys
 
 from method_lines import Composition
 from method_lines.utils import find_modules, get_last_module_part
@@ -24,9 +24,12 @@ def get_command_object(composition, command_name):
     return module.Command(composition)
 
 
-def execute(argv):
+def execute(argv=None):
+    if argv is None:
+        argv = sys.argv
+
     if len(argv) < 3:
-        exit('Usage: %s task-name path1 [path2 [...]]' % argv[0])
+        sys.exit('Usage: %s task-name path1 [path2 [...]]' % argv[0])
 
     task_name = argv[1]
     for path in argv[2:]:
