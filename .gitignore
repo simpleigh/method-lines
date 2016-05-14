@@ -1,2 +1,5 @@
 # /compositions/STAGE/JOB/COMMAND/OUTPUT
 /compositions/*/*/*/*
+
+dist/*
+method_lines.egg-info/*
