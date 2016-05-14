@@ -1,4 +1,5 @@
 import os
+import sys
 from setuptools import setup, find_packages
 
 
@@ -13,8 +14,17 @@ with open(os.path.join(BASE_DIR, 'README.rst')) as readme_file:
     long_description = readme_file.read()
 
 
-with open(os.path.join(BASE_DIR, 'requirements.txt')) as requirements_file:
-    requirements = [line.strip() for line in requirements_file]
+requirements = [
+    'XlsxWriter',
+    'ringing-lib>=0.3',
+    'six',
+]
+
+
+# These three lines copied from importlib setup.py
+if ((sys.version_info[0] == 2 and sys.version_info[1] < 7) or
+        (sys.version_info[0] == 3 and sys.version_info[1] < 1)):
+    requirements.append('importlib')
 
 
 setup(
@@ -37,7 +47,6 @@ setup(
         'Intended Audience :: End Users/Desktop',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Operating System :: POSIX :: Linux',
-        'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
