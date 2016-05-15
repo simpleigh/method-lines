@@ -17,7 +17,7 @@ install:
   - sudo dpkg --install libringing-dev_0.4.0-4_amd64.deb
   - sudo dpkg --install libringing-bin_0.4.0-4_amd64.deb
   - pip install -r requirements.txt
-  - pip install -r requirements-dev.txt
+  - pip install -r dev-requirements.txt
 
 script:
   - flake8 method_lines
