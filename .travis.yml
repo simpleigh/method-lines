@@ -21,4 +21,4 @@ install:
 
 script:
   - flake8 method_lines
-  - ./method-lines.py all examples/*/*
+  - ./method-lines all examples/*/*
