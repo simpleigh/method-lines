@@ -21,7 +21,7 @@ class Command(BaseCommand):
     def execute(self):
         driver = GSiril()
 
-        filename = os.path.join(self.get_output_directory(), 'composition.txt')
+        filename = os.path.join(self.get_output_directory(), 'gsiril.txt')
         with open(filename, 'w') as file:
 
             def output(*args):
