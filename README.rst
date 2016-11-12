@@ -9,6 +9,10 @@ Method Lines
    :alt: Issues
    :target: https://github.com/simpleigh/method-lines/issues
 
+.. image:: https://requires.io/github/simpleigh/method-lines/requirements.svg
+     :target: https://requires.io/github/simpleigh/method-lines/requirements/
+     :alt: Requirements Status
+
 .. image:: https://img.shields.io/pypi/v/method-lines.svg
    :alt: Version
    :target: https://pypi.python.org/pypi/method-lines/
