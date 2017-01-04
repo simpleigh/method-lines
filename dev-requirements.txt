@@ -1,5 +1,5 @@
-flake8==2.6.2
-mccabe==0.5.2
-pycodestyle==2.0.0
-pyflakes==1.2.3
+flake8==3.2.1
+mccabe==0.5.3
+pycodestyle==2.2.0
+pyflakes==1.4.0
 wheel
