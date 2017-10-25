@@ -88,13 +88,13 @@ class PsLine(object):
         )
 
         if file is None:
-            file = method.full_name()
+            file = method.name
         arguments.append(
             '--output-file={0}.pdf'.format(path.join(self.file_path, file)),
         )
 
         if title is None:
-            title = method.full_name()
+            title = method.name
         arguments.append('--title={0}'.format(title))
 
         if self.place_bells:
