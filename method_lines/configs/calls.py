@@ -17,6 +17,10 @@ class Config(BaseConfig):
         with open(self.get_config_filename()) as file:
             reader = csv.reader(file, delimiter=b'\t' if six.PY2 else '\t')
             for row in reader:
+                # Skip blank lines
+                if not row:
+                    continue
+
                 call, place_notation = row
                 try:
                     calls[call] = Change(self.configs.bells, place_notation)

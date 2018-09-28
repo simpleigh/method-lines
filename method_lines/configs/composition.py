@@ -13,6 +13,10 @@ class Config(BaseConfig):
             for line in file:
                 line = line.strip()
 
+                # Skip blank lines
+                if not line:
+                    continue
+
                 # Check methods config SEPARATELY, BEFORE the calls config.
                 # This means we don't need a calls config if our composition
                 # only names methods (configs are loaded lazily as required).
