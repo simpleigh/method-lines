@@ -15,7 +15,7 @@ STYLE_NORMAL = 0
 STYLE_RUN_START = 1
 STYLE_RUN = 2
 STYLE_RUN_END = 3
-# 4-7 reserved for LH styles
+# 4-7 reserved for LE styles
 STYLE_METHOD_NAME = 8
 STYLE_CALL = 9
 
@@ -162,7 +162,7 @@ class Command(BaseCommand):
                     self.styles[STYLE_CALL],
                 )
 
-            if index == 0 or index == lead.method_object.size:  # Lead head
+            if index == lead.method_object.size - 1:  # Lead end
                 self.print_row(row, worksheet, True)
             else:
                 self.print_row(row, worksheet)
