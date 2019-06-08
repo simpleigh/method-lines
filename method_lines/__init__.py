@@ -101,6 +101,7 @@ class Composition(object):
     def is_cyclic(self):
         """
         Whether the composition has a cyclic part end.
+        (Returns False if it's a single-part composition).
         """
 
         if self._is_cyclic is None:
@@ -119,7 +120,7 @@ class Composition(object):
 
             self._is_cyclic = self.part_end in cyclic_part_ends
 
-        return self._is_cyclic
+        return self.parts != 1 and self._is_cyclic
 
     @property
     def length(self):
