@@ -4,7 +4,6 @@ from __future__ import absolute_import, print_function, unicode_literals
 import os
 
 from ringing import Row, Method
-import six
 
 from method_lines.commands import BaseCommand
 
@@ -15,7 +14,7 @@ class Command(BaseCommand):
         if self.composition.configs.has_config('calls'):
             longest_call = max(map(
                 lambda s: len(s),
-                six.iterkeys(self.composition.configs.calls)
+                self.composition.configs.calls.keys()
             ))
             format_string = '  {0.method_name}\n{0.call_symbol:' + \
                 str(longest_call) + '} {0.lead_head}'
@@ -37,14 +36,14 @@ class Command(BaseCommand):
 
             # Number of methods
             methods = {}
-            for name, length in six.iteritems(self.composition.method_balance):
+            for name, length in self.composition.method_balance.items():
                 # Assemble dict mapping lengths to lists of methods
                 # e.g. {176: ['Slinky'], 880: ['Maypole']}
                 if length not in methods:
                     methods[length] = []
                 methods[length].append(name)
 
-            for length in six.iterkeys(methods):
+            for length in methods.keys():
                 # Replace each list of methods with string for output
                 # e.g. {176: '176 Slinky', 880: '880 Maypole'}
                 methods[length] = ', '.join(sorted(methods[length]))
@@ -54,7 +53,7 @@ class Command(BaseCommand):
                 # Sort entries in reverse order of length
                 # e.g. {880: '880 Maypole', 176: '176 Slinky'}
                 methods[length] for length
-                in reversed(list(six.iterkeys(methods)))
+                in reversed(list(methods.keys()))
             ]
 
             output('({number}m: {methods})\n'.format(

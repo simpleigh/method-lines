@@ -4,7 +4,6 @@ from __future__ import absolute_import, unicode_literals
 import csv
 
 from ringing import Method
-import six
 
 from method_lines.configs import BaseConfig
 
@@ -15,7 +14,7 @@ class Config(BaseConfig):
 
         methods = {}
         with open(self.get_config_filename()) as file:
-            reader = csv.reader(file, delimiter=b'\t' if six.PY2 else '\t')
+            reader = csv.reader(file, delimiter='\t')
             for row in reader:
                 # Skip blank lines
                 if not row:

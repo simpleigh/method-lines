@@ -3,8 +3,6 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import os
 
-import six
-
 from method_lines.commands import BaseCommand
 from method_lines.drivers import GSiril
 
@@ -43,7 +41,7 @@ class Command(BaseCommand):
             output()
 
             # List of methods with notation for their plain lead
-            for method in six.itervalues(self.composition.configs.methods):
+            for method in self.composition.configs.methods.values():
                 output('m_{name}_plain = {notation};'.format(
                     name=driver.encode(method.name),
                     notation=method.format(**self.PLACE_NOTATION_OPTIONS),
@@ -51,7 +49,7 @@ class Command(BaseCommand):
             output()
 
             # List of methods omitting the lead end change
-            for method in six.itervalues(self.composition.configs.methods):
+            for method in self.composition.configs.methods.values():
                 output('m_{name}_lead = {notation};'.format(
                     name=driver.encode(method.name),
                     notation=method.format(
@@ -63,9 +61,7 @@ class Command(BaseCommand):
 
             # List of calls (if these exist)
             if self.composition.configs.has_config('calls'):
-                for name, call in six.iteritems(
-                    self.composition.configs.calls
-                ):
+                for name, call in self.composition.configs.calls.items():
                     output('c_{name} = +{call};'.format(
                         name=driver.encode(name),
                         call=call,

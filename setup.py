@@ -17,7 +17,6 @@ with open(os.path.join(BASE_DIR, 'README.rst')) as readme_file:
 requirements = [
     'XlsxWriter',
     'ringing-lib>=0.3',
-    'six',
 ]
 
 

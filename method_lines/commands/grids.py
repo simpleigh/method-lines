@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
-import six
-
 from method_lines.commands import BaseCommand
 from method_lines.drivers import PsLine
 
@@ -16,7 +14,7 @@ class Command(BaseCommand):
         driver.suppress_rules = True
         driver.total_leads = 1
 
-        for method in six.itervalues(self.composition.configs.methods):
+        for method in self.composition.configs.methods.values():
             lines = []
 
             for bell in range(self.composition.configs.bells):
