@@ -32,6 +32,14 @@ class Command(BaseCommand):
             output('{bells} bells;'.format(
                 bells=self.composition.configs.bells,
             ))
+
+            # Number of extents: "extents n;"
+            if self.composition.configs.has_config('extents'):
+                output('{extents} extents;'.format(
+                    extents=self.composition.configs.extents,
+                ))
+                output()
+
             output()
 
             # List of methods with notation for their plain lead
