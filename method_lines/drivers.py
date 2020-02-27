@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
-
 from os import path
 
 from ringing import Row
@@ -15,7 +12,7 @@ def bell_number_to_char(num):
     return str(Row(num + 1))[num]  # Hack this out of a Row string
 
 
-class GSiril(object):
+class GSiril:
     """
     Wrapper for the gsiril command-line utility.
     """
@@ -54,7 +51,7 @@ class GSiril(object):
             execute('gsiril', ['-q'], show_output=True, stdin=file)
 
 
-class PsLine(object):
+class PsLine:
     """
     Wrapper for the psline command-line utility.
     """

@@ -1,13 +1,10 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
-
 from importlib import import_module
 import os
 
 from method_lines.utils import find_modules, get_last_module_part
 
 
-class ConfigStore(object):
+class ConfigStore:
     """
     Contains available configs for a composition.
 
@@ -39,7 +36,7 @@ class ConfigStore(object):
         return name in self._configs
 
 
-class BaseConfig(object):
+class BaseConfig:
 
     def __init__(self, configs):
         self.configs = configs

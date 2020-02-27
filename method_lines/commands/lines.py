@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
-
 from method_lines.commands import BaseCommand
 from method_lines.drivers import PsLine
 

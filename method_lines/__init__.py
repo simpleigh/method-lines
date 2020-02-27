@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
-
 import os
 
 from ringing import Row, RowBlock
@@ -8,7 +5,7 @@ from ringing import Row, RowBlock
 from method_lines.configs import ConfigStore
 
 
-class Lead(object):
+class Lead:
     """
     Represents a lead of the composition.
     """
@@ -29,7 +26,7 @@ class Lead(object):
         self.lead_head = self.rows[self.rows.size - 1]
 
 
-class Composition(object):
+class Composition:
     """
     Represents a composition.
     """

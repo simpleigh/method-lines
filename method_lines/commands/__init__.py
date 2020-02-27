@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
-
 from importlib import import_module
 import os
 import sys
@@ -38,7 +35,7 @@ def execute(argv=None):
         command.execute()
 
 
-class BaseCommand(object):
+class BaseCommand:
 
     requires_output_directory = True
     run_on_all_command = True
