@@ -50,7 +50,7 @@ class Command(BaseCommand):
                 # Sort entries in reverse order of length
                 # e.g. {880: '880 Maypole', 176: '176 Slinky'}
                 methods[length] for length
-                in reversed(list(methods.keys()))
+                in reversed(sorted(methods.keys()))
             ]
 
             output('({number}m: {methods})\n'.format(
