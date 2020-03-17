@@ -1,7 +1,7 @@
-from method_lines.configs import BaseConfig
+from method_lines.configs.base import BaseConfig
 
 
-class Config(BaseConfig):
+class Composition(BaseConfig):
 
     def read_data(self, file):
         composition = []
