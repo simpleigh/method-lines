@@ -1,3 +1,2 @@
 XlsxWriter==0.9.6
-importlib==1.0.4; python_version < '2.7'
 ringing-lib==0.3.0
