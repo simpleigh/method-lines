@@ -19,4 +19,5 @@ install:
 
 script:
   - flake8 method_lines
+  - python -m unittest
   - ./method-lines all examples/*/*

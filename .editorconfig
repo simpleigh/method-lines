@@ -11,3 +11,7 @@ trim_trailing_whitespace = true
 # Examples use tabs to separate data fields
 [*.txt]
 indent_style = tab
+
+# Makefiles use tabs
+[Makefile]
+indent_style = tab

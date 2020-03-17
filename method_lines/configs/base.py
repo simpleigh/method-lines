@@ -8,7 +8,7 @@ class BaseConfig:
     Derived classes should implement `read_data` to process file information.
     """
 
-    def __init__(self, filename, config_store):
+    def __init__(self, filename, config_store=None):
         self.filename = filename
         self.config_store = config_store
         self._data = None

@@ -26,7 +26,7 @@ class Bells(IntegerValueConfig):
     def read_data(self, file):
         bells = super().read_data(file)
 
-        if not (0 <= bells <= Bell.MAX_BELLS):
+        if not (1 <= bells <= Bell.MAX_BELLS):
             raise RuntimeError('Number of bells out of range')
 
         return bells
@@ -37,7 +37,7 @@ class Extents(IntegerValueConfig):
     def read_data(self, file):
         extents = super().read_data(file)
 
-        if not (0 <= extents):
+        if not (1 <= extents):
             raise RuntimeError('Number of extents out of range')
 
         return extents
