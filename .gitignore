@@ -1,5 +1,7 @@
 # /examples/STAGE/JOB/COMMAND/OUTPUT
 /examples/*/*/*/*
 
+coverage/*
 dist/*
 method_lines.egg-info/*
+.coverage
