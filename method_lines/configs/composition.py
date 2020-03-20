@@ -3,7 +3,7 @@ from method_lines.configs.base import BaseConfig
 
 class Composition(BaseConfig):
 
-    def read_data(self, file):
+    def _process_data(self, file):
         composition = []
 
         for line in file:

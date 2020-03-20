@@ -13,7 +13,7 @@ class KeyValueConfig(BaseConfig):
     Each mapping should appear on a separate line.
     """
 
-    def read_data(self, file):
+    def _process_data(self, file):
         result = {}
 
         for row in csv.reader(file, delimiter='\t'):
@@ -29,8 +29,8 @@ class KeyValueConfig(BaseConfig):
 
 class Methods(KeyValueConfig):
 
-    def read_data(self, file):
-        methods = super().read_data(file)
+    def _process_data(self, file):
+        methods = super()._process_data(file)
         for base_name, place_notation in methods.items():
             try:
                 methods[base_name] = Method(
@@ -47,8 +47,8 @@ class Methods(KeyValueConfig):
 
 class Calls(KeyValueConfig):
 
-    def read_data(self, file):
-        calls = super().read_data(file)
+    def _process_data(self, file):
+        calls = super()._process_data(file)
         for call, place_notation in calls.items():
             try:
                 calls[call] = Change(
