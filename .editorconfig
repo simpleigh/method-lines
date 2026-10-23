@@ -1,3 +1,5 @@
+# EditorConfig is awesome: https://editorconfig.org
+
 root = true
 
 [*]
@@ -11,6 +13,10 @@ trim_trailing_whitespace = true
 # Examples use tabs to separate data fields
 [*.txt]
 indent_style = tab
+
+# Condense spacing on YAML files
+[*.{yaml,yml}]
+indent_size = 2
 
 # Makefiles use tabs
 [Makefile]

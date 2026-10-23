@@ -1,19 +1,22 @@
-.PHONY: build, check, clean, lint
+.PHONY: sync build check clean lint test
+
+sync:
+	uv sync --locked --all-groups
 
 build:
-	python setup.py sdist
-	python setup.py bdist_wheel
+	uv build
 
-check:
-	coverage run -m unittest
-	coverage html
+check: lint test
 
 clean:
-	rm -rf build
 	rm -rf coverage
 	rm -rf dist
 	rm -rf method_lines.egg-info
 	rm .coverage
 
 lint:
-	flake8 method_lines
+	uv run --locked flake8 method_lines
+
+test:
+	uv run --locked coverage run -m unittest
+	uv run --locked coverage html

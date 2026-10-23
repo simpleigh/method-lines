@@ -1,17 +1,13 @@
 Method Lines
 ============
 
-.. image:: https://travis-ci.org/simpleigh/method-lines.svg?branch=master
+.. image:: https://github.com/simpleigh/method-lines/actions/workflows/ci.yml/badge.svg
    :alt: Build Status
-   :target: https://travis-ci.org/simpleigh/method-lines
+   :target: https://github.com/simpleigh/method-lines/actions/workflows/ci.yml
 
 .. image:: https://img.shields.io/github/issues/simpleigh/method-lines.svg
    :alt: Issues
    :target: https://github.com/simpleigh/method-lines/issues
-
-.. image:: https://requires.io/github/simpleigh/method-lines/requirements.svg
-     :target: https://requires.io/github/simpleigh/method-lines/requirements/
-     :alt: Requirements Status
 
 .. image:: https://img.shields.io/pypi/v/method-lines.svg
    :alt: Version
@@ -39,4 +35,13 @@ Method Lines
 
 Produces method lines and resources for peals in parts.
 
-NOTE: This is very much work-in-progress with some spaghetti sections!
+NOTE: This is very much work-in-progress with lots of spaghetti!
+
+Development
+-----------
+
+Install `uv <https://docs.astral.sh/uv/>`_, then run::
+
+   make sync
+   make check
+   make build

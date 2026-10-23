@@ -127,7 +127,7 @@ class Composition:
         Computed naïvely: assume rounds will only occur at a part end, i.e.
         total length = length of part × number of parts
         """
-        length_of_part = sum(map(lambda l: l.method_object.size, self.leads))
+        length_of_part = sum([lead.method_object.size for lead in self.leads])
         return length_of_part * self.parts
 
     @property

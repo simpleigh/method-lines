@@ -1,0 +1,100 @@
+[build-system]
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#declaring-the-build-backend
+
+# A list of dependencies needed to build the project.
+requires = [
+    "setuptools>=77",  # https://setuptools.pypa.io/en/latest/userguide/index.html
+]
+
+# The build backend to be used.
+build-backend = "setuptools.build_meta"
+
+
+[dependency-groups]
+# This specification defines dependency groups, a mechanism for storing package
+# requirements in pyproject.toml files such that they are not included in
+# project metadata when it is built.
+# https://packaging.python.org/en/latest/specifications/dependency-groups/#the-dependency-groups-table
+# https://docs.astral.sh/uv/concepts/projects/dependencies/#dependency-groups
+
+dev = [
+    "coverage>=7.6",
+    "flake8>=7.1",
+]
+
+
+[project]
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
+
+# Put the name of your project on PyPI.
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#name
+name = "method-lines"
+
+# Put the version of your project.
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#version
+version = "0.1.2"
+
+# If your project has dependencies, list them.
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#dependencies-optional-dependencies
+dependencies = [
+    "XlsxWriter>=3.3.0",
+    "ringing-lib>=0.5.1",
+]
+
+# This lets you declare the minimum version of Python that you support
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#python-requires
+requires-python = ">=3.11"
+
+# Lists of people identified by a name and/or an email address
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#authors-maintainers
+authors = [{ name = "Leigh Simpson", email = "code@simpleigh.com" }]
+
+# This should be a one-line description of your project, to show as the
+# “headline” of your project page on PyPI.
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#description
+description = "Produces method lines and resources for peals in parts."
+
+# This is a longer description of your project, to display on your project page
+# on PyPI.
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#readme
+readme = "README.rst"
+
+# The new format for license is a valid SPDX license expression consisting of
+# one or more license identifiers.
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license
+license = "GPL-3.0-or-later"
+
+# This is a list of license files and files containing other legal information
+# you want to distribute with your package.
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license-files
+license-files = ["COPYING", "COPYING.GPL"]
+
+# A list of PyPI classifiers that apply to your project
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#classifiers
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
+]
+
+
+[project.scripts]
+# To install a command as part of your package, declare it in the
+# `[project.scripts]` table.
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#creating-executable-scripts
+
+method-lines = "method_lines.commands:execute"
+
+
+[project.urls]
+# A list of URLs associated with your project
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#urls
+
+Repository = "https://github.com/simpleigh/method-lines"
