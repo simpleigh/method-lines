@@ -41,7 +41,7 @@ jobs:
       - run: make check
 
       - name: Build examples
-        run: ./method-lines all examples/*/*
+        run: uv run method-lines all examples/*/*
 
     strategy:
       matrix:

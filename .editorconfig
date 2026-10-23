@@ -10,14 +10,15 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
+[*.rst]
+indent_size = 3
+
 # Examples use tabs to separate data fields
 [*.txt]
 indent_style = tab
 
-# Condense spacing on YAML files
 [*.{yaml,yml}]
 indent_size = 2
 
-# Makefiles use tabs
 [Makefile]
 indent_style = tab

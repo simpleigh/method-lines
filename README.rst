@@ -37,6 +37,38 @@ Produces method lines and resources for peals in parts.
 
 NOTE: This is very much work-in-progress with lots of spaghetti!
 
+Usage
+-----
+
+1. **Install the Ringing Class Library**.
+
+   You can download the latest source from
+   `GitHub <https://github.com/ringing-lib/ringing-lib>`_.
+   After obtaining appropriate prerequisites you can configure and install.
+   Within the Ringing Class Library source tree:
+
+   .. code-block:: bash
+
+      make
+      sudo make install
+
+   This is needed to provide tools like ``gsiril`` and ``psline``.
+
+2. **Install Using pip**
+
+   Install directly from
+   `PyPI <https://pypi.python.org/pypi/method-lines/>`_:
+
+   .. code-block:: bash
+
+      pip install method_lines
+
+3. **Build an example**
+
+   .. code-block:: bash
+
+      method-lines all examples/major/smith
+
 Development
 -----------
 
