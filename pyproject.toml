@@ -3,11 +3,11 @@
 
 # A list of dependencies needed to build the project.
 requires = [
-    "setuptools>=77",  # https://setuptools.pypa.io/en/latest/userguide/index.html
+    "uv_build>=0.13.5",
 ]
 
 # The build backend to be used.
-build-backend = "setuptools.build_meta"
+build-backend = "uv_build"
 
 
 [dependency-groups]
@@ -98,3 +98,17 @@ method-lines = "method_lines.commands:execute"
 # https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#urls
 
 Repository = "https://github.com/simpleigh/method-lines"
+
+
+[tool.uv.build-backend]
+# https://docs.astral.sh/uv/concepts/build-backend/
+
+# The name of the module directory inside `module-root`.
+# https://docs.astral.sh/uv/reference/settings/#build-backend_module-name
+# https://docs.astral.sh/uv/concepts/build-backend/#modules
+module-name = "method_lines"
+
+# The directory that contains the module directory.
+# https://docs.astral.sh/uv/reference/settings/#build-backend_module-root
+# https://docs.astral.sh/uv/concepts/build-backend/#modules
+module-root = ""
