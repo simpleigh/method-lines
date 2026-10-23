@@ -17,7 +17,7 @@ def get_command_object(composition, command_name):
     """
     Returns the Command object of the named command.
     """
-    module = import_module('method_lines.commands.{0}'.format(command_name))
+    module = import_module(f'method_lines.commands.{command_name}')
     return module.Command(composition)
 
 
@@ -26,7 +26,7 @@ def execute(argv=None):
         argv = sys.argv
 
     if len(argv) < 3:
-        sys.exit('Usage: %s task-name path1 [path2 [...]]' % argv[0])
+        sys.exit(f'Usage: {argv[0]} task-name path1 [path2 [...]]')
 
     task_name = argv[1]
     for path in argv[2:]:

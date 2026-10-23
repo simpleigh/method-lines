@@ -15,7 +15,7 @@ clean:
 	rm .coverage
 
 lint:
-	uv run --locked flake8 method_lines
+	uv run --locked ruff check .
 
 test:
 	uv run --locked coverage run -m unittest

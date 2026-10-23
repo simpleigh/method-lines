@@ -3,7 +3,7 @@
 
 # A list of dependencies needed to build the project.
 requires = [
-    "uv_build>=0.13.5",
+    "uv_build>=0.13.5",  # https://docs.astral.sh/uv/concepts/build-backend/
 ]
 
 # The build backend to be used.
@@ -19,7 +19,7 @@ build-backend = "uv_build"
 
 dev = [
     "coverage>=7.6",
-    "flake8>=7.1",
+    "ruff>=0.17.3",  # https://docs.astral.sh/ruff/
 ]
 
 
@@ -37,8 +37,8 @@ version = "0.1.2"
 # If your project has dependencies, list them.
 # https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#dependencies-optional-dependencies
 dependencies = [
-    "XlsxWriter>=3.3.0",
-    "ringing-lib>=0.5.1",
+    "XlsxWriter>=3.3.0",  # https://xlsxwriter.readthedocs.io/
+    "ringing-lib>=0.5.1",  # https://ringing-lib-python.readthedocs.io/en/latest/
 ]
 
 # This lets you declare the minimum version of Python that you support
@@ -112,3 +112,82 @@ module-name = "method_lines"
 # https://docs.astral.sh/uv/reference/settings/#build-backend_module-root
 # https://docs.astral.sh/uv/concepts/build-backend/#modules
 module-root = ""
+
+
+[tool.ruff.lint]
+# https://docs.astral.sh/ruff/configuration/
+
+# A list of rule codes or prefixes to ignore.
+# https://docs.astral.sh/ruff/settings/#ignore
+ignore = [
+    'RUF002',  # ambiguous-unicode-character-docstring - ditto
+]
+
+# A list of rule codes or prefixes to enable.
+# @see https://docs.astral.sh/ruff/settings/#select
+select = [
+    'B',    # flake8-bugbear
+    'BLE',  # flake8-blind-except
+    'C4',   # flake8-comprehensions
+    'COM',  # flake8-commas
+    'E',    # pycodestyle
+    'EXE',  # flake8-executable
+    'F',    # Pyflakes
+    'FLY',  # flynt
+    'G',    # flake8-logging-format
+    'I',    # isort
+    'ICN',  # flake8-import-conventions
+    'INP',  # flake8-no-pep420
+    'ISC',  # flake8-implicit-str-concat
+    'PIE',  # flake8-pie
+    'PYI',  # flake8-pyi
+    'Q',    # flake8-quotes
+    'RSE',  # flake8-raise
+    'RUF',  # Ruff-specific rules
+    'S',    # flake8-bandit
+    'SLF',  # flake8-self
+    'T10',  # flake8-debugger
+    'T20',  # flake8-print
+    'TCH',  # flake8-type-checking
+    'TID',  # flake8-tidy-imports
+    'UP',   # pyupgrade
+    'W',    # pycodestyle
+]
+
+
+[tool.ruff.lint.flake8-quotes]
+# https://docs.astral.sh/ruff/settings/#flake8-quotes
+
+# Quote style to prefer for docstrings (either "single" or "double").
+# https://docs.astral.sh/ruff/settings/#docstring-quotes
+docstring-quotes = 'double'
+
+# Quote style to prefer for inline strings (either "single" or "double").
+# https://docs.astral.sh/ruff/settings/#inline-quotes
+inline-quotes = 'single'
+
+# Quote style to prefer for multiline strings (either "single" or "double").
+# https://docs.astral.sh/ruff/settings/#multiline-quotes
+multiline-quotes = 'single'
+
+
+[tool.ruff.lint.isort]
+# https://docs.astral.sh/ruff/settings/#isort
+
+# Combines as imports on the same line.
+# https://docs.astral.sh/ruff/settings/#combine-as-imports
+# https://pycqa.github.io/isort/docs/configuration/options.html#combine-as-imports
+combine-as-imports = true
+
+# Don't sort straight-style imports (like `import sys`) before from-style
+# imports (like `from itertools import groupby`). Instead, sort the imports by
+# module, independent of import style.
+# https://docs.astral.sh/ruff/settings/#force-sort-within-sections
+# https://pycqa.github.io/isort/docs/configuration/options.html#force-sort-within-sections
+force-sort-within-sections = true
+
+# The number of blank lines to place after imports. -1 for automatic
+# determination.
+# https://docs.astral.sh/ruff/settings/#lines-after-imports
+# https://pycqa.github.io/isort/docs/configuration/options.html#lines-after-imports
+lines-after-imports = 2

@@ -37,7 +37,7 @@ class Composition:
 
     def __init__(self, path):
         if not os.path.exists(path):
-            raise RuntimeError("Cannot find path: '{0}'".format(path))
+            raise RuntimeError(f"Cannot find path: '{path}'")
         self.path = path
 
         self.configs = ConfigStore(path)

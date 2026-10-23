@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from method_lines.commands import get_commands, get_command_object, BaseCommand
+from method_lines.commands import BaseCommand, get_command_object, get_commands
 
 
 class Command(BaseCommand):

@@ -1,6 +1,6 @@
 import io
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import patch
 
 from method_lines.configs.base import BaseConfig
 from method_lines.tests.configs.helpers import find_fixture
@@ -14,16 +14,16 @@ class TestConfig(BaseConfig):
 class BaseConfigTestCase(unittest.TestCase):
     def test_passes_the_file_to_derived_classes(self):
         filename = find_fixture('base', 'good')
-        config = TestConfig(filename)
-        config._process_data = MagicMock()
+        with patch.object(TestConfig, '_process_data', autospec=True) as process_data:
+            config = TestConfig(filename)
 
-        config.get_data()
+            config.get_data()
 
-        self.assertIs(config._process_data.call_count, 1)
+            self.assertIs(process_data.call_count, 1)
 
-        file = config._process_data.call_args[0][0]
-        self.assertIsInstance(file, io.TextIOBase)
-        self.assertEqual(file.name, filename)
+            file = process_data.call_args[0][1]
+            self.assertIsInstance(file, io.TextIOBase)
+            self.assertEqual(file.name, filename)
 
     def test_returns_the_processed_result_from_derived_classes(self):
         config = TestConfig(find_fixture('base', 'good'))
@@ -31,17 +31,17 @@ class BaseConfigTestCase(unittest.TestCase):
 
     def test_only_processes_data_once(self):
         config = TestConfig(find_fixture('base', 'good'))
-        config._process_data = MagicMock()
+        with patch.object(TestConfig, '_process_data', autospec=True) as process_data:
 
-        self.assertIs(config._process_data.call_count, 0)
+            self.assertIs(process_data.call_count, 0)
 
-        config.get_data()
+            config.get_data()
 
-        self.assertIs(config._process_data.call_count, 1)
+            self.assertIs(process_data.call_count, 1)
 
-        config.get_data()
+            config.get_data()
 
-        self.assertIs(config._process_data.call_count, 1)
+            self.assertIs(process_data.call_count, 1)
 
     def test_raises_if_file_not_found(self):
         config = BaseConfig(find_fixture('base', 'missing'))

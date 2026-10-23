@@ -1,4 +1,5 @@
 from os import path
+import sys
 
 from ringing import Row
 
@@ -24,8 +25,9 @@ class GSiril:
         try:
             execute('gsiril', ['--version'])
         except OSError:
-            print('Cannot execute gsiril: is it installed and in the path?')
-            print()
+            sys.stderr.write(
+                'Cannot execute gsiril: is it installed and in the path?\n\n',
+            )
             raise
 
     def encode(self, name):
@@ -47,7 +49,7 @@ class GSiril:
         """
         Invokes gsiril to prove a touch.
         """
-        with open(filename, 'r') as file:
+        with open(filename) as file:
             execute('gsiril', ['-q'], show_output=True, stdin=file)
 
 
@@ -61,8 +63,6 @@ class PsLine:
     suppress_rules = False
     total_leads = None
 
-    extra_arguments = ['--pdf']
-
     def __init__(self):
         """
         Constructs the object and checks that psline is found in the path.
@@ -70,47 +70,49 @@ class PsLine:
         try:
             execute('psline', ['--version'])
         except OSError:
-            print('Cannot execute psline: is it installed and in the path?')
-            print()
+            sys.stderr.write(
+                'Cannot execute psline: is it installed and in the path?\n\n',
+            )
             raise
 
-    def create_line(self, method, lines=[], file=None, title=None):
+    def create_line(self, method, lines=None, file=None, title=None):
         """
         Invokes psline to draw a method line.
         """
+        if lines is None:
+            lines = []
+
         arguments = []
 
         arguments.append(
-            '{bells}:{pn}'.format(bells=method.bells, pn=method.format())
+            f'{method.bells}:{method.format()}',
         )
 
         if file is None:
             file = method.name
         arguments.append(
-            '--output-file={0}.pdf'.format(path.join(self.file_path, file)),
+            f'--output-file={path.join(self.file_path, file)}.pdf',
         )
 
         if title is None:
             title = method.name
-        arguments.append('--title={0}'.format(title))
+        arguments.append(f'--title={title}')
 
         if self.place_bells:
             arguments.append(
-                '--place-bells={0}'.format(
-                    bell_number_to_char(self.place_bells)
-                )
+                f'--place-bells={bell_number_to_char(self.place_bells)}',
             )
 
         if self.suppress_rules:
             arguments.append('--rule')
 
         if self.total_leads:
-            arguments.append('--total-leads={0}'.format(self.total_leads))
+            arguments.append(f'--total-leads={self.total_leads}')
 
         for line in lines:
             arguments.append(self.line_arg_from_line_dict(line))
 
-        arguments = arguments + self.extra_arguments
+        arguments.append('--pdf')
 
         execute('psline', arguments)
 

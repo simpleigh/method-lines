@@ -1,4 +1,5 @@
 import csv
+import sys
 
 from ringing import Change, Method
 
@@ -39,7 +40,7 @@ class Methods(KeyValueConfig):
                     base_name,
                 )
             except ValueError:
-                print('Could not parse method {0}'.format(base_name))
+                sys.stderr.write(f'Could not parse method {base_name}\n')
                 raise
 
         return methods
@@ -56,7 +57,7 @@ class Calls(KeyValueConfig):
                     place_notation,
                 )
             except ValueError:
-                print('Could not parse call {0}'.format(call))
+                sys.stderr.write(f'Could not parse call {call}\n')
                 raise
 
         return calls

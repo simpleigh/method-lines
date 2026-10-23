@@ -30,7 +30,7 @@ class ConfigStore:
         self._check_config_name(name)
 
         if not self.has_config(name):
-            raise RuntimeError('Cannot find "{0}" configuration'.format(name))
+            raise RuntimeError(f'Cannot find "{name}" configuration')
 
         if name not in self._configs:
             Config = self.known_configs[name]
@@ -54,5 +54,5 @@ class ConfigStore:
     def _check_config_name(self, name):
         if name not in self.known_configs:
             raise NotImplementedError(
-                '"{0}" configuration unknown'.format(name)
+                f'"{name}" configuration unknown',
             )

@@ -1,6 +1,7 @@
+from ringing import Bell
+
 from method_lines.commands import BaseCommand
 from method_lines.drivers import PsLine
-from ringing import Bell
 
 
 class Command(BaseCommand):
@@ -26,6 +27,6 @@ class Command(BaseCommand):
                 driver.create_line(
                     method,
                     lines,
-                    file='{0} {1}'.format(method.name, place_bell + 1),
-                    title='{0} {1}'.format(method.name, place_bell + 1),
+                    file=f'{method.name} {place_bell + 1}',
+                    title=f'{method.name} {place_bell + 1}',
                 )

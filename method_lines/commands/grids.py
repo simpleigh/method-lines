@@ -24,6 +24,6 @@ class Command(BaseCommand):
             driver.create_line(
                 method,
                 lines,
-                file='{0} - Grid'.format(method.name),
-                title='{0} - Grid'.format(method.name),
+                file=f'{method.name} - Grid',
+                title=f'{method.name} - Grid',
             )

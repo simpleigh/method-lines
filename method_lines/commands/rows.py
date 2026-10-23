@@ -50,7 +50,7 @@ class Command(BaseCommand):
     def execute(self):
         workbook = xlsxwriter.Workbook(
             os.path.join(self.get_output_directory(), 'rows.xlsx'),
-            {'strings_to_numbers': True}
+            {'strings_to_numbers': True},
         )
         self.styles = [workbook.add_format(style) for style in CELL_STYLES]
         self.create_worksheet(workbook, 'Portrait')
@@ -94,18 +94,18 @@ class Command(BaseCommand):
         # Set print area and column widths
         worksheet.print_area(
             0, 0,
-            rows, self.calculate_columns(rows) * col_index_delta - 2
+            rows, self.calculate_columns(rows) * col_index_delta - 2,
         )
         for i in range(self.calculate_columns(rows)):
             worksheet.set_column(
                 i * col_index_delta,
                 (i + 1) * col_index_delta - 3,
-                BELL_COLUMN_WIDTH
+                BELL_COLUMN_WIDTH,
             )
             worksheet.set_column(
                 (i + 1) * col_index_delta - 1,
                 (i + 1) * col_index_delta - 1,
-                GUTTER_COLUMN_WIDTH
+                GUTTER_COLUMN_WIDTH,
             )
 
     def calculate_columns(self, rows):
@@ -223,7 +223,7 @@ class Command(BaseCommand):
             previous_bell = current_bell
 
         if lead_head:
-            styles = list(map(lambda style: style + 4, styles))
+            styles = [style + 4 for style in styles]
 
         for index, bell in enumerate(str(row)):
             worksheet.write(

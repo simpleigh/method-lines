@@ -5,8 +5,9 @@ from method_lines.tests.configs.helpers import find_fixture
 
 
 class ConfigStoreMock:
-    methods = ['Cambridge']
-    calls = ['-']
+    def __init__(self):
+        self.methods: list[str] = ['Cambridge']
+        self.calls: list[str] = ['-']
 
 
 class CompositionTestCase(unittest.TestCase):

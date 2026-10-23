@@ -20,7 +20,7 @@ class ConfigStoreTestCase(unittest.TestCase):
 
         self.assertIs(mock_bells.call_count, 0)
 
-        store.bells
+        _ = store.bells
 
         mock_bells.assert_called_with(
             filename=os.path.join(self.path, 'bells.txt'),
@@ -33,11 +33,11 @@ class ConfigStoreTestCase(unittest.TestCase):
 
         self.assertIs(mock_bells.call_count, 0)
 
-        store.bells
+        _ = store.bells
 
         self.assertIs(mock_bells.call_count, 1)
 
-        store.bells
+        _ = store.bells
 
         self.assertIs(mock_bells.call_count, 1)
 
@@ -53,13 +53,11 @@ class ConfigStoreTestCase(unittest.TestCase):
 
     def test_raises_if_config_unknown_on_access(self):
         store = ConfigStore(self.path)
-        with self.assertRaises(NotImplementedError):
-            store.unknown
+        self.assertRaises(NotImplementedError, lambda: store.unknown)
 
     def test_raises_if_config_not_found_on_access(self):
         store = ConfigStore(self.path)
-        with self.assertRaises(RuntimeError):
-            store.composition
+        self.assertRaises(RuntimeError, lambda: store.composition)
 
     def test_can_assemble_filename(self):
         store = ConfigStore(self.path)
