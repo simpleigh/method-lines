@@ -1,9 +1,9 @@
 Method Lines
 ============
 
-.. image:: https://github.com/simpleigh/method-lines/actions/workflows/ci.yml/badge.svg
+.. image:: https://github.com/simpleigh/method-lines/actions/workflows/build.yml/badge.svg
    :alt: Build Status
-   :target: https://github.com/simpleigh/method-lines/actions/workflows/ci.yml
+   :target: https://github.com/simpleigh/method-lines/actions/workflows/build.yml
 
 .. image:: https://img.shields.io/github/issues/simpleigh/method-lines.svg
    :alt: Issues
