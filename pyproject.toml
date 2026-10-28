@@ -18,9 +18,10 @@ build-backend = "uv_build"
 # https://docs.astral.sh/uv/concepts/projects/dependencies/#dependency-groups
 
 dev = [
-    "pytest>=9.2.0",  # https://docs.pytest.org/en/latest/
-    "pytest-cov>=7.1.0",  # https://pytest-cov.readthedocs.io/en/latest/
-    "ruff>=0.17.3",  # https://docs.astral.sh/ruff/
+    "pytest",  # https://docs.pytest.org/en/latest/
+    "pytest-cov",  # https://pytest-cov.readthedocs.io/en/latest/
+    "ruff",  # https://docs.astral.sh/ruff/
+    "zizmor",  # https://docs.zizmor.sh/
 ]
 
 
