@@ -1,0 +1,25 @@
+# https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference
+
+version: 2
+
+updates:
+  - package-ecosystem: github-actions
+    cooldown:
+      default-days: 7
+    directory: /
+    schedule:
+      interval: daily
+
+  - package-ecosystem: uv
+    allow:
+      - dependency-type: all
+    cooldown:
+      default-days: 7
+    directory: /
+    schedule:
+      interval: daily
+    groups:
+      minor-versions:
+        update-types:
+          - minor
+          - patch
