@@ -1,54 +1,59 @@
 import io
-import unittest
 from unittest.mock import patch
+
+import pytest
 
 from method_lines.configs.base import BaseConfig
 from method_lines.tests.configs.helpers import find_fixture
 
 
-class TestConfig(BaseConfig):
+class ConfigUnderTest(BaseConfig):
     def _process_data(self, file):
         return 'test'
 
 
-class BaseConfigTestCase(unittest.TestCase):
-    def test_passes_the_file_to_derived_classes(self):
-        filename = find_fixture('base', 'good')
-        with patch.object(TestConfig, '_process_data', autospec=True) as process_data:
-            config = TestConfig(filename)
+def test_passes_the_file_to_derived_classes():
+    filename = find_fixture('base', 'good')
+    with patch.object(ConfigUnderTest, '_process_data', autospec=True) as process_data:
+        config = ConfigUnderTest(filename)
 
-            config.get_data()
+        config.get_data()
 
-            self.assertIs(process_data.call_count, 1)
+        assert process_data.call_count == 1
 
-            file = process_data.call_args[0][1]
-            self.assertIsInstance(file, io.TextIOBase)
-            self.assertEqual(file.name, filename)
+        file = process_data.call_args[0][1]
+        assert isinstance(file, io.TextIOBase)
+        assert file.name == filename
 
-    def test_returns_the_processed_result_from_derived_classes(self):
-        config = TestConfig(find_fixture('base', 'good'))
-        self.assertEqual(config.get_data(), 'test')
 
-    def test_only_processes_data_once(self):
-        config = TestConfig(find_fixture('base', 'good'))
-        with patch.object(TestConfig, '_process_data', autospec=True) as process_data:
+def test_returns_the_processed_result_from_derived_classes():
+    config = ConfigUnderTest(find_fixture('base', 'good'))
+    assert config.get_data() == 'test'
 
-            self.assertIs(process_data.call_count, 0)
 
-            config.get_data()
+def test_only_processes_data_once():
+    config = ConfigUnderTest(find_fixture('base', 'good'))
+    with patch.object(ConfigUnderTest, '_process_data', autospec=True) as process_data:
+        assert process_data.call_count == 0
 
-            self.assertIs(process_data.call_count, 1)
+        config.get_data()
 
-            config.get_data()
+        assert process_data.call_count == 1
 
-            self.assertIs(process_data.call_count, 1)
+        config.get_data()
 
-    def test_raises_if_file_not_found(self):
-        config = BaseConfig(find_fixture('base', 'missing'))
-        with self.assertRaises(FileNotFoundError):
-            config.get_data()
+        assert process_data.call_count == 1
 
-    def test_raises_not_implemented_for_abstract_base(self):
-        config = BaseConfig(find_fixture('base', 'good'))
-        with self.assertRaises(NotImplementedError):
-            config.get_data()
+
+def test_raises_if_file_not_found():
+    config = BaseConfig(find_fixture('base', 'missing'))
+
+    with pytest.raises(FileNotFoundError):
+        config.get_data()
+
+
+def test_raises_not_implemented_for_abstract_base():
+    config = BaseConfig(find_fixture('base', 'good'))
+
+    with pytest.raises(NotImplementedError):
+        config.get_data()

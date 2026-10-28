@@ -1,7 +1,8 @@
 # /examples/STAGE/JOB/COMMAND/OUTPUT
 /examples/
 
-/coverage/
 /dist/
+/htmlcov/
 /method_lines.egg-info/
-.coverage
+/.coverage
+/coverage.xml

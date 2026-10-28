@@ -36,9 +36,20 @@ jobs:
       - name: Install Python dependencies
         run: make sync
 
-      - run: make build
+      - name: Build package
+        run: make build
 
-      - run: make check
+      - name: Lint
+        run: make lint
+
+      - name: Test
+        run: make test
+
+      - name: Publish test coverage
+        # https://github.com/codecov/codecov-action
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Build examples
         run: uv run method-lines all examples/*/*

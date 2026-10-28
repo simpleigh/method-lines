@@ -18,7 +18,8 @@ build-backend = "uv_build"
 # https://docs.astral.sh/uv/concepts/projects/dependencies/#dependency-groups
 
 dev = [
-    "coverage>=7.6",
+    "pytest>=9.2.0",  # https://docs.pytest.org/en/latest/
+    "pytest-cov>=7.1.0",  # https://pytest-cov.readthedocs.io/en/latest/
     "ruff>=0.17.3",  # https://docs.astral.sh/ruff/
 ]
 
@@ -100,20 +101,6 @@ method-lines = "method_lines.commands:execute"
 Repository = "https://github.com/simpleigh/method-lines"
 
 
-[tool.uv.build-backend]
-# https://docs.astral.sh/uv/concepts/build-backend/
-
-# The name of the module directory inside `module-root`.
-# https://docs.astral.sh/uv/reference/settings/#build-backend_module-name
-# https://docs.astral.sh/uv/concepts/build-backend/#modules
-module-name = "method_lines"
-
-# The directory that contains the module directory.
-# https://docs.astral.sh/uv/reference/settings/#build-backend_module-root
-# https://docs.astral.sh/uv/concepts/build-backend/#modules
-module-root = ""
-
-
 [tool.ruff.lint]
 # https://docs.astral.sh/ruff/configuration/
 
@@ -191,3 +178,39 @@ force-sort-within-sections = true
 # https://docs.astral.sh/ruff/settings/#lines-after-imports
 # https://pycqa.github.io/isort/docs/configuration/options.html#lines-after-imports
 lines-after-imports = 2
+
+
+[tool.ruff.lint.per-file-ignores]
+# A list of mappings from file pattern to rule codes or prefixes to exclude,
+# when considering any matching files.
+# https://docs.astral.sh/ruff/settings/#lint_per-file-ignores
+
+"method_lines/tests/**" = [
+    "S101",  # assert necessary in tests
+]
+
+
+[tool.coverage.run]
+
+# Whether to measure branch coverage in addition to statement coverage.
+# https://coverage.readthedocs.io/en/latest/config.html#run-branch
+branch = true
+
+# A list of file name patterns, the files to leave out of measurement or
+# reporting.
+# https://coverage.readthedocs.io/en/latest/config.html#run-omit
+omit = ["method_lines/tests/*"]
+
+
+[tool.uv.build-backend]
+# https://docs.astral.sh/uv/concepts/build-backend/
+
+# The name of the module directory inside `module-root`.
+# https://docs.astral.sh/uv/reference/settings/#build-backend_module-name
+# https://docs.astral.sh/uv/concepts/build-backend/#modules
+module-name = "method_lines"
+
+# The directory that contains the module directory.
+# https://docs.astral.sh/uv/reference/settings/#build-backend_module-root
+# https://docs.astral.sh/uv/concepts/build-backend/#modules
+module-root = ""
